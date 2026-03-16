@@ -2,7 +2,7 @@
 using Application.Interfaces;
 using MassTransit;
 using Application.DTOs.Services;
-namespace Application.Features.Customer.Commands;
+namespace Application.Features.Customers.Commands;
 public record AddUserCommand(string Name, string Email, string Password);
 
 public class AddUserHandler : ICommandHandler<AddUserCommand>

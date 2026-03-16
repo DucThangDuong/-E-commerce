@@ -1,0 +1,23 @@
+﻿using Application.Interfaces;
+using Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Infrastructure.Repositories
+{
+    public class ProductRepository:IProductRepository
+    {
+        private readonly EcommerceOrderSystemContext _context;
+        public ProductRepository(EcommerceOrderSystemContext context) { 
+            _context = context;
+        }
+
+        public async Task AddAsync(Product product)
+        {
+            await _context.Products.AddAsync(product);
+        }
+    }
+}

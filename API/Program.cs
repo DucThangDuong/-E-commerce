@@ -19,6 +19,17 @@ namespace API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddCors(option =>
+            {
+                option.AddPolicy("CORS", options =>
+                {
+                    options
+                    .WithOrigins("Http://localhost:5173")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+                });
+            });
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddFastEndpoints();
@@ -101,11 +112,18 @@ namespace API
 
             builder.Services.AddScoped < IUnitOfWork, UnitOfWork > ();
             builder.Services.AddScoped <ICustomerRepository,CustomerRepository> ();
-            builder.Services.AddScoped <Application.Features.Customer.Commands.AddUserHandler> ();
-            builder.Services.AddScoped < Application.Features.Customer.Queries.GetLoginUserHandler > ();
+
+            builder.Services.AddScoped < Application.Features.Customers.Queries.GetLoginUserHandler > ();
+            builder.Services.AddScoped <Application.Features.Customers.Commands.AddUserHandler> ();
+            builder.Services.AddScoped < Application.Features.Carts.Command.AddItemCartCustomerHandler > ();
+            builder.Services.AddScoped<Application.Features.Categories.Command.AddNewCategoryHandler>();
+            builder.Services.AddScoped<Application.Features.Products.Commands.AddNewProductHandler>();
+            builder.Services.AddScoped<Application.Features.Categories.Queries.GetAllCategoryHandler>();
+            builder.Services.AddScoped<Application.Features.Products.Queries.GetAllProductHandler>();
             builder.Services.AddHttpContextAccessor();
             var app = builder.Build();
             app.UseRouting();
+            app.UseCors("CORS");
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

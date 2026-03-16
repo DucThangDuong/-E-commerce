@@ -1,6 +1,5 @@
 ﻿using API.DTOs;
-using Application.Features.Customer.Commands;
-using Application.Features.Customer.Queries;
+using Application.Features.Customers.Commands;
 using FastEndpoints;
 
 namespace API.EndPoints.Auth
@@ -19,7 +18,7 @@ namespace API.EndPoints.Auth
             var result = await Handler.HandleAsync(new AddUserCommand(req.Fullname,req.Email, req.Password), ct);
             if (result.IsSuccess)
             {
-                await Send.ResponseAsync(result.StatusCode);
+                await Send.ResponseAsync(201);
             }
             else
             {

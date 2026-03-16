@@ -8,7 +8,11 @@ namespace Application.Interfaces
 {
     public interface IUnitOfWork
     {
+        public IApplicationDbContext Context { get; }
         public ICustomerRepository CustomerRepository { get; }
+        public ICartRepository CartRepository { get; }
+        public ICategoryRepository CategoryRepository { get; }
+        public IProductRepository ProductRepository { get; }
         public Task SaveChangesAsync();
     }
 }

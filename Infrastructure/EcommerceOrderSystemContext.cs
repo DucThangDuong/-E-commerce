@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+using Application.Interfaces;
 using Domain.Entities;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Infrastructure;
 
-public partial class EcommerceOrderSystemContext : DbContext
+public partial class EcommerceOrderSystemContext : DbContext, IApplicationDbContext
 {
     public EcommerceOrderSystemContext()
     {
@@ -239,8 +239,6 @@ public partial class EcommerceOrderSystemContext : DbContext
         {
             entity.HasKey(e => e.ProductId).HasName("PK__Products__47027DF54110CAE9");
 
-            entity.HasIndex(e => e.Sku, "UQ__Products__CA1ECF0DDCB4EAD7").IsUnique();
-
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.BasePrice)
                 .HasColumnType("decimal(18, 2)")
@@ -250,10 +248,6 @@ public partial class EcommerceOrderSystemContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
-            entity.Property(e => e.Sku)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("SKU");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)

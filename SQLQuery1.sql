@@ -47,7 +47,6 @@ CREATE TABLE Categories (
 CREATE TABLE Products (
     product_id INT IDENTITY(1,1) PRIMARY KEY,
     category_id INT NOT NULL,
-    SKU VARCHAR(50) NOT NULL UNIQUE,
     name NVARCHAR(255) NOT NULL,
     description NVARCHAR(MAX),
     base_price DECIMAL(18, 2) NOT NULL,
