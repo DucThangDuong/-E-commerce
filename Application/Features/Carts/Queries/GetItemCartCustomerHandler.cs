@@ -23,12 +23,8 @@ namespace Application.Features.Carts.Queries
             try
             {
 
-                var result = _context.Context.Carts.AsNoTracking()
+                var result = _context.Context.Carts
                     .Where(e => e.CustomerId == query.customerId)
-                    .Include(c => c.Product)
-                    .ThenInclude(c => c.Category)
-                    .Include(e => e.Product.Inventory)
-                    .Include(e => e.Product.ProductImages)
                     .Select(e => new ResCartDto
                     {
                         BasePrice = e.Product.BasePrice,

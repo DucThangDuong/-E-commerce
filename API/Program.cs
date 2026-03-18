@@ -1,6 +1,7 @@
 using Amazon.S3;
 using API.Services;
 using Application.Consumers;
+using Application.Features.Carts.Command;
 using Application.Interfaces;
 using Application.IServices;
 using FastEndpoints;
@@ -139,6 +140,8 @@ namespace API
             builder.Services.AddScoped<Application.Features.Customers.Commands.AddLoginGoogleCustomerHandler>();
             builder.Services.AddScoped<Application.Features.Customers.Queries.GetCustomerProfileHandler>();
             builder.Services.AddScoped<Application.Features.Carts.Queries.GetItemCartCustomerHandler>();
+            builder.Services.AddScoped<Application.Features.Products.Queries.GetDetailProductHandler>();
+            builder.Services.AddScoped<DeleteItemCartCustomerHandler>();
             builder.Services.AddHttpContextAccessor();
             var app = builder.Build();
             app.UseRouting();

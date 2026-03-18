@@ -9,7 +9,8 @@ namespace Application.Interfaces
 {
     public interface ICartRepository
     {
-        public Task<Cart> AddNewCartAsync(int customer_id, int product_id,int quantity);
-        public Task<Cart> GetCartAsync(int customer_id,int product_id);
+        public Task<bool> AddNewCartAsync(Cart newCart);
+        public Task<Cart?> GetCartAsync(int customer_id,int product_id);
+        public Task<bool> DeleteCartAsync(int customerId, int productId);
     }
 }

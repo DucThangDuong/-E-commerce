@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,7 @@ namespace Application.Interfaces
 {
     public interface IProductRepository
     {
-        public Task AddAsync(Product product);
+        Task AddAsync(Product product);
+        Task<int?> GetStockQuantityAsync(int productId, CancellationToken ct = default);
     }
 }

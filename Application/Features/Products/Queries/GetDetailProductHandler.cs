@@ -1,4 +1,4 @@
-using Application.Common;
+﻿using Application.Common;
 using Application.DTOs.Response;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -10,23 +10,19 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Products.Queries
 {
-    public record GetAllProductQuery(int skip,int take);
-
-    public class GetAllProductHandler: IQueryHandler<GetAllProductQuery,List<ResProductDto>>
+    public record GetDetailProductQuery(int productId);
+    public class GetDetailProductHandler : IQueryHandler<GetDetailProductQuery, ResProductDto>
     {
         private readonly IUnitOfWork _context;
-        public GetAllProductHandler(IUnitOfWork context)
-        {
+        public GetDetailProductHandler(IUnitOfWork context) { 
             _context = context;
         }
-        public async Task<Result<List<ResProductDto>>> HandleAsync(GetAllProductQuery query, CancellationToken ct = default)
+        public async Task<Result<ResProductDto>> HandleAsync(GetDetailProductQuery query, CancellationToken ct = default)
         {
             try
             {
                 var products = await _context.Context.Products
-                    .OrderBy(e => e.ProductId)
-                    .Skip(query.skip)
-                    .Take(query.take)
+                    .Where(e => e.ProductId == query.productId)
                     .Select(e => new ResProductDto
                     {
                         BasePrice = e.BasePrice,
@@ -36,13 +32,13 @@ namespace Application.Features.Products.Queries
                         ProductId = e.ProductId,
                         StockQuantity = e.Inventory.StockQuantity,
                         imageUrl = e.ProductImages.Select(e => e.ImageUrl).ToList(),
-                    })
-                    .ToListAsync(ct);
+                    }).FirstOrDefaultAsync();
 
-                return Result<List<ResProductDto>>.Success(products);
+                return Result<ResProductDto>.Success(products);
             }
-            catch (Exception ex) {
-                return Result<List<ResProductDto>>.Failure($"Lỗi khi lấy danh sách sản phẩm: {ex.Message}", 500);
+            catch (Exception ex)
+            {
+                return Result<ResProductDto>.Failure($"Lỗi khi lấy danh sách sản phẩm: {ex.Message}", 500);
             }
         }
     }

@@ -1,56 +1,66 @@
 using Application.Common;
 using Application.Interfaces;
 using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Application.Features.Carts.Command
 {
-    public record AddItemCartCustomerCommand(int customer_id, int product_id, int quantity);
+    public record AddItemCartCustomerCommand(int CustomerId, int ProductId, int Quantity);
+    
     public class AddItemCartCustomerHandler : ICommandHandler<AddItemCartCustomerCommand>
     {
         private readonly IUnitOfWork _context;
-        public AddItemCartCustomerHandler(IUnitOfWork context) { 
+        private readonly ILogger<AddItemCartCustomerHandler> _logger;
+
+        public AddItemCartCustomerHandler(IUnitOfWork context, ILogger<AddItemCartCustomerHandler> logger) 
+        { 
             _context = context;
+            _logger = logger;
         }
 
         public async Task<Result> HandleAsync(AddItemCartCustomerCommand command, CancellationToken ct = default)
         {
             try
             {
-                int stock_quantity = await _context.Context.Inventories
-                    .Where(i => i.ProductId == command.product_id)
-                    .Select(i => i.StockQuantity)
-                    .FirstOrDefaultAsync(ct);
+                int? stockQuantity = await _context.ProductRepository.GetStockQuantityAsync(command.ProductId, ct);
 
-                if (stock_quantity == 0 || stock_quantity < command.quantity)
+                if (stockQuantity == null)
                 {
-                    return Result.Failure("Not enough stock available", 400);
+                    return Result.Failure("Product not found.", 404);
                 }
 
-                var existingCart = await _context.CartRepository.GetCartAsync(command.customer_id, command.product_id);
+                var existingCart = await _context.CartRepository.GetCartAsync(command.CustomerId, command.ProductId);
+                int currentQuantityInCart = existingCart?.Quantity ?? 0;
+
+                if (stockQuantity.Value == 0 || (currentQuantityInCart + command.Quantity) > stockQuantity.Value)
+                {
+                    return Result.Failure("Not enough stock available for the requested quantity.", 400);
+                }
+
                 if (existingCart != null)
                 {
-                    existingCart.Quantity += command.quantity;
+                    existingCart.Quantity += command.Quantity;
                 }
                 else
                 {
-                    var newcart = await _context.CartRepository.AddNewCartAsync(command.customer_id, command.product_id, command.quantity);
-                    if (newcart == null)
-                    {
-                        return Result.Failure("Failed to add item to cart", 500);
-                    }
+                    Cart newCart = new Cart{
+                        CustomerId = command.CustomerId,
+                        ProductId = command.ProductId,
+                        Quantity = command.Quantity
+                    };
+                    await _context.CartRepository.AddNewCartAsync(newCart);
                 }
+                
                 await _context.SaveChangesAsync();
                 return Result.Success();
             }
             catch (Exception ex)
             {
-                return Result.Failure($"An error occurred: {ex.Message}", 500);
+                _logger.LogError(ex, "Error adding item to cart. CustomerId: {CustomerId}, ProductId: {ProductId}", command.CustomerId, command.ProductId);
+                return Result.Failure("An internal error occurred while processing your request.", 500);
             }
         }
     }

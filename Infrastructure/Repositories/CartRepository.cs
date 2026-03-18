@@ -16,20 +16,35 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Cart> AddNewCartAsync(int customer_id, int product_id, int quantity)
+        public async Task<bool> AddNewCartAsync(Cart newCart)
         {
-            var cart = new Cart
+            try
             {
-                CustomerId = customer_id,
-                ProductId = product_id,
-                Quantity = quantity
-            };
-            await _context.Carts.AddAsync(cart);
-            return cart;
+
+                await _context.Carts.AddAsync(newCart);
+                return true;
+            }
+            catch {
+                return false;
+            }
         }
 
+        public async Task<bool> DeleteCartAsync(int customerId, int productId)
+        {
+            try
+            {
+                await _context.Carts
+                    .Where(e => e.ProductId == productId && e.CustomerId == customerId)
+                    .ExecuteDeleteAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
-        public async Task<Cart> GetCartAsync(int customer_id, int product_id)
+        public async Task<Cart?> GetCartAsync(int customer_id, int product_id)
         {
             return await _context.Carts.FirstOrDefaultAsync(c => c.CustomerId == customer_id && c.ProductId == product_id);
         }

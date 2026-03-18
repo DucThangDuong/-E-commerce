@@ -1,10 +1,11 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -18,6 +19,14 @@ namespace Infrastructure.Repositories
         public async Task AddAsync(Product product)
         {
             await _context.Products.AddAsync(product);
+        }
+
+        public async Task<int?> GetStockQuantityAsync(int productId, CancellationToken ct = default)
+        {
+            return await _context.Inventories
+                .Where(i => i.ProductId == productId)
+                .Select(i => (int?)i.StockQuantity)
+                .FirstOrDefaultAsync(ct);
         }
     }
 }
