@@ -65,9 +65,41 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(ct);
         }
 
-        public async Task<bool> CategoryExistsAsync(int categoryId, CancellationToken ct = default)
+
+        public async Task AddFeaturedProductAsync(FeaturedProduct featuredProduct, CancellationToken ct = default)
         {
-            return await _context.Categories.AnyAsync(c => c.CategoryId == categoryId, ct);
+            await _context.FeaturedProducts.AddAsync(featuredProduct, ct);
+        }
+
+        public async Task<List<ResFeaturedProductDto>> GetFeaturedProductsAsync(CancellationToken ct = default)
+        {
+            return await _context.FeaturedProducts
+                .AsNoTracking()
+                .OrderBy(f => f.DisplayOrder)
+                .Select(f => new ResFeaturedProductDto
+                {
+                    FeaturedId = f.FeaturedId,
+                    ProductId = f.ProductId,
+                    DisplayOrder = f.DisplayOrder,
+                    StartDate = f.StartDate,
+                    EndDate = f.EndDate,
+                    Product = new ResProductDto
+                    {
+                        BasePrice = f.Product.BasePrice,
+                        CategoryId = f.Product.CategoryId,
+                        Description = f.Product.Description,
+                        Name = f.Product.Name,
+                        ProductId = f.Product.ProductId,
+                        StockQuantity = f.Product.Inventory != null ? f.Product.Inventory.StockQuantity : 0,
+                        imageUrl = f.Product.ProductImages.Select(pi => pi.ImageUrl).ToList(),
+                    }
+                })
+                .ToListAsync(ct);
+        }
+
+        public async Task<bool> ProductExistsAsync(int productId, CancellationToken ct = default)
+        {
+            return await _context.Products.AnyAsync(e=>e.ProductId == productId);
         }
     }
 }

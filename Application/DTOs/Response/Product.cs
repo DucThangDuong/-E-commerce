@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +19,21 @@ namespace Application.DTOs.Response
         public decimal BasePrice { get; set; }
         public int StockQuantity { get; set; }
         public List<string>? imageUrl { get; set; } 
+    }
+    public class FileUploadDto
+    {
+        public Stream Stream { get; set; } = null!;
+        public string FileName { get; set; } = string.Empty;
+        public string ContentType { get; set; } = string.Empty;
+    }
+
+    public class ResFeaturedProductDto
+    {
+        public int FeaturedId { get; set; }
+        public int ProductId { get; set; }
+        public int? DisplayOrder { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public ResProductDto Product { get; set; } = null!;
     }
 }

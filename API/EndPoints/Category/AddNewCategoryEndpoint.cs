@@ -14,7 +14,7 @@ namespace API.EndPoints.Category
         {
             Post("/category");
             AuthSchemes(JwtBearerDefaults.AuthenticationScheme);
-            Roles("Admin");
+            //Roles("Admin");
         }
 
         public override async Task HandleAsync(ReqCreateCategoryDto req, CancellationToken ct)

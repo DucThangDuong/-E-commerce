@@ -1,4 +1,5 @@
 using Application.Common;
+using Application.DTOs.Response;
 using Application.DTOs.Services;
 using Application.Interfaces;
 using Application.IServices;
@@ -30,7 +31,7 @@ namespace Application.Features.Products.Commands
         {
             try
             {
-                bool hasCategory = await _unitOfWork.ProductRepository.CategoryExistsAsync(command.CategoryId, ct);
+                bool hasCategory = await _unitOfWork.CategoryRepository.CategoryExistsAsync(command.CategoryId, ct);
                 if (!hasCategory)
                 {
                     return Result.Failure("Category not found", 404);

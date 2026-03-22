@@ -21,7 +21,7 @@ public partial class EcommerceOrderSystemContext : DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
-
+    public virtual DbSet<FeaturedProduct> FeaturedProducts { get; set; }
     public virtual DbSet<Inventory> Inventories { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -238,6 +238,33 @@ public partial class EcommerceOrderSystemContext : DbContext
                 .HasForeignKey<Payment>(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Payments__order___6A30C649");
+        });
+        modelBuilder.Entity<FeaturedProduct>(entity =>
+        {
+            entity.HasKey(e => e.FeaturedId).HasName("PK__Featured__8D1458B25894DC46");
+
+            entity.HasIndex(e => e.ProductId, "UQ__Featured__47027DF4636282A7").IsUnique();
+
+            entity.Property(e => e.FeaturedId).HasColumnName("featured_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.DisplayOrder)
+                .HasDefaultValue(0)
+                .HasColumnName("display_order");
+            entity.Property(e => e.EndDate)
+                .HasColumnType("datetime")
+                .HasColumnName("end_date");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.StartDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("start_date");
+
+            entity.HasOne(d => d.Product).WithOne(p => p.FeaturedProduct)
+                .HasForeignKey<FeaturedProduct>(d => d.ProductId)
+                .HasConstraintName("FK__FeaturedP__produ__7B5B524B");
         });
 
         modelBuilder.Entity<Product>(entity =>

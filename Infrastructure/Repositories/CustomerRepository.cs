@@ -59,19 +59,38 @@ namespace Infrastructure.Repositories
             await _context.Customers.AddAsync(customer);
         }
 
-        public async Task<ResCustomerPrivate?> GetCustomerProfileAsync(int customerId, CancellationToken ct = default)
+        public async Task<ResCustomerPrivateDto?> GetCustomerProfileAsync(int customerId, CancellationToken ct = default)
         {
             return await _context.Customers
                 .AsNoTracking()
                 .Where(x => x.CustomerId == customerId)
-                .Select(x => new ResCustomerPrivate
+                .Select(x => new ResCustomerPrivateDto
                 {
                     avatarUrl = x.CustomAvatar,
                     email = x.Email,
                     id = x.CustomerId,
-                    name = x.Name
+                    name = x.Name,
+                    address = x.Address,
+                    phoneNumber = x.PhoneNumber,
                 })
                 .FirstOrDefaultAsync(ct);
+        }
+
+        public async Task<int> UpdateCustomerProfileAsync(int customerId, string name, string? phoneNumber, string? address, CancellationToken ct = default)
+        {
+            return await _context.Customers
+                .Where(x => x.CustomerId == customerId)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(x => x.Name, n => name ?? n.Name)
+                    .SetProperty(x => x.PhoneNumber, n => phoneNumber ?? n.PhoneNumber)
+                    .SetProperty(x => x.Address, n => address ?? n.Address), ct);
+        }
+
+        public async Task<int> RevokeRefreshTokenAsync(int customerId)
+        {
+            return await _context.Customers.Where(e => e.CustomerId == customerId).ExecuteUpdateAsync(s => s
+                .SetProperty(x => x.RefreshToken, (string?)null)
+                .SetProperty(x => x.RefreshTokenExpiryTime, (DateTime?)null));
         }
     }
 }

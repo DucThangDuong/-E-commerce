@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace Domain.Entities;
-
 public partial class Product
 {
     public int ProductId { get; set; }
@@ -18,6 +17,8 @@ public partial class Product
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
     public virtual Category Category { get; set; } = null!;
+
+    public virtual FeaturedProduct? FeaturedProduct { get; set; }
 
     public virtual Inventory? Inventory { get; set; }
 

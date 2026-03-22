@@ -41,5 +41,9 @@ namespace Infrastructure.Repositories
                 })
                 .ToListAsync(ct);
         }
+        public async Task<bool> CategoryExistsAsync(int categoryId, CancellationToken ct = default)
+        {
+            return await _context.Categories.AnyAsync(c => c.CategoryId == categoryId, ct);
+        }
     }
 }

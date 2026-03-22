@@ -1,5 +1,5 @@
 using API.DTOs;
-using Application.DTOs.Services;
+using Application.DTOs.Response;
 using Application.Features.Products.Commands;
 using FastEndpoints;
 using MediatR;
@@ -15,13 +15,12 @@ namespace API.EndPoints.Product
         {
             Post("/product");
             AuthSchemes(JwtBearerDefaults.AuthenticationScheme);
-            Roles("Admin");
-            AllowFileUploads();
+            //Roles("Admin");
+            //AllowFileUploads();
         }
 
         public override async Task HandleAsync(ReqCreateProductDto req, CancellationToken ct)
         {
-            // Convert IFormFile to FileUploadDto (keeps IFormFile in API layer only)
             List<FileUploadDto>? fileUploads = null;
             if (req.images != null && req.images.Any())
             {

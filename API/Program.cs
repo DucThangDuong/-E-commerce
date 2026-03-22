@@ -71,6 +71,14 @@ namespace API
                 });
             });
 
+
+            //──────────── Redis  ────────────
+            builder.Services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = builder.Configuration["RedisCache"];
+                options.InstanceName = "MyApp_";
+            });
+
             // ──────────── Rate Limiting ────────────
             builder.Services.AddRateLimiter(options =>
             {

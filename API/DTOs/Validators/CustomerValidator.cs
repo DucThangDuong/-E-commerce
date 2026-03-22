@@ -10,4 +10,12 @@ namespace API.DTOs.Validators
                 .NotEmpty().WithMessage("Yêu cầu mã người dùng");
         }
     }
+    public class CustomerUpdateValidator : Validator<ReqUpdateCustomerProfile>
+    {
+        public CustomerUpdateValidator()
+        {
+            RuleFor(x=>x.Name)
+                .NotEmpty().WithMessage($"Yêu cầu tên người dùng");
+        }
+    }
 }

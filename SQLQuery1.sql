@@ -125,6 +125,17 @@ CREATE TABLE ProductImages (
     FOREIGN KEY (product_id) REFERENCES Products(product_id) ON DELETE CASCADE
 );
 GO
+CREATE TABLE FeaturedProducts (
+    featured_id INT IDENTITY(1,1) PRIMARY KEY,
+    product_id INT NOT NULL UNIQUE,        -- UNIQUE để 1 sản phẩm không bị lặp lại 2 lần trên trang chủ
+    display_order INT DEFAULT 0,           -- Thứ tự ưu tiên hiển thị (số nhỏ xếp trước)
+    start_date DATETIME DEFAULT GETDATE(), -- Ngày bắt đầu đưa lên trang chủ
+    end_date DATETIME NULL,                -- Ngày kết thúc (NULL nghĩa là hiển thị vô thời hạn)
+    created_at DATETIME DEFAULT GETDATE(),
+    -- Xóa sản phẩm thì tự động xóa khỏi danh sách nổi bật
+    FOREIGN KEY (product_id) REFERENCES Products(product_id) ON DELETE CASCADE
+);
+GO
 -- 1. Tạo bảng InboxState (Dùng cho Consumer để chống trùng lặp)
 CREATE TABLE [InboxState] (
     [Id] bigint NOT NULL IDENTITY,
