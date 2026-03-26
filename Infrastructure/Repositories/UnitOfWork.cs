@@ -11,6 +11,8 @@ namespace Infrastructure.Repositories
         public ICategoryRepository CategoryRepository { get; }
         public IBrandRepository BrandRepository { get; }
         public IProductRepository ProductRepository { get; }
+        public IOrderRepository OrderRepository { get; }
+        public IInventoryRepository InventoryRepository { get; }
 
         public UnitOfWork(
             EcommerceOrderSystemContext context,
@@ -18,7 +20,9 @@ namespace Infrastructure.Repositories
             ICartRepository cartRepository,
             ICategoryRepository categoryRepository,
             IBrandRepository brandRepository,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            IOrderRepository orderRepository,
+            IInventoryRepository inventoryRepository)
         {
             _context = context;
             CustomerRepository = customerRepository;
@@ -26,6 +30,9 @@ namespace Infrastructure.Repositories
             CategoryRepository = categoryRepository;
             BrandRepository = brandRepository;
             ProductRepository = productRepository;
+            OrderRepository = orderRepository;
+            InventoryRepository = inventoryRepository;
+
         }
 
         public async Task SaveChangesAsync(CancellationToken ct = default)

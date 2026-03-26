@@ -7,6 +7,8 @@ namespace Application.Interfaces
         ICategoryRepository CategoryRepository { get; }
         IBrandRepository BrandRepository { get; }
         IProductRepository ProductRepository { get; }
+        IOrderRepository OrderRepository { get; }
+        IInventoryRepository InventoryRepository { get; }
         Task SaveChangesAsync(CancellationToken ct = default);
     }
 }

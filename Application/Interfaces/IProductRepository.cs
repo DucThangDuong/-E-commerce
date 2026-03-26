@@ -13,5 +13,7 @@ namespace Application.Interfaces
         Task AddFeaturedProductAsync(FeaturedProduct featuredProduct, CancellationToken ct = default);
         Task<List<ResFeaturedProductDto>> GetFeaturedProductsAsync(CancellationToken ct = default);
         Task<bool> ProductExistsAsync(int productId, CancellationToken ct = default);
+        Task<bool> AllProductsExistAsync(List<int> productIds, CancellationToken ct = default);
+        Task<Dictionary<int, decimal>> GetProductPricesAsync(List<int> productIds, CancellationToken ct = default);
     }
 }

@@ -275,11 +275,18 @@ public partial class EcommerceOrderSystemContext : DbContext
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("amount");
             entity.Property(e => e.OrderId).HasColumnName("order_id");
+            entity.Property(e => e.Address)
+                .HasMaxLength(500)
+                .HasColumnName("address");
             entity.Property(e => e.PaymentStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasDefaultValue("Unpaid")
                 .HasColumnName("payment_status");
+            entity.Property(e => e.PhoneNumber)
+               .HasMaxLength(20)
+               .IsUnicode(false)
+               .HasColumnName("phone_number");
             entity.Property(e => e.Provider)
                 .HasMaxLength(50)
                 .IsUnicode(false)

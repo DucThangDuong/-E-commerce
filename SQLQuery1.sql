@@ -107,7 +107,9 @@ CREATE TABLE Payments (
     order_id INT NOT NULL UNIQUE, -- UNIQUE để đảm bảo quan hệ 1-1 với Order
     amount DECIMAL(18, 2) NOT NULL,
     provider VARCHAR(50) NOT NULL, -- VNPay, MoMo, Stripe, COD...
-    payment_status VARCHAR(50) NOT NULL DEFAULT 'Unpaid', -- Paid, Unpaid, Failed
+    payment_status VARCHAR(50) NOT NULL DEFAULT 'Unpaid', 
+    phone_number VARCHAR(20),
+    address NVARCHAR(500),
     FOREIGN KEY (order_id) REFERENCES Orders(order_id)
 );
 

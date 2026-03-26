@@ -28,6 +28,14 @@ namespace Infrastructure.Repositories
             return deleted > 0;
         }
 
+        public async Task<bool> DeleteCartItemsAsync(int customerId, List<int> productIds, CancellationToken ct = default)
+        {
+            var deleted = await _context.Carts
+                .Where(e => e.CustomerId == customerId && productIds.Contains(e.ProductId))
+                .ExecuteDeleteAsync(ct);
+            return deleted > 0;
+        }
+
         public async Task<Cart?> GetCartAsync(int customerId, int productId)
         {
             return await _context.Carts.FirstOrDefaultAsync(c => c.CustomerId == customerId && c.ProductId == productId);

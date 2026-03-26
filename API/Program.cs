@@ -133,6 +133,8 @@ namespace API
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IBrandRepository, BrandRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IInventoryRepository,InventoryRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Storage (MinIO / S3)

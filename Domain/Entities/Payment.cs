@@ -15,5 +15,9 @@ public partial class Payment
 
     public string PaymentStatus { get; set; } = null!;
 
+    public string? PhoneNumber { get; set; }
+
+    public string? Address { get; set; }
+
     public virtual Order Order { get; set; } = null!;
 }
