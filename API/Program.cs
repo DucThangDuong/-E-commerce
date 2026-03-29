@@ -115,6 +115,20 @@ namespace API
                         IssuerSigningKey = new SymmetricSecurityKey(key),
                         ClockSkew = TimeSpan.Zero
                     };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+
+                            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/notifications"))
+                            {
+                                context.Token = accessToken; 
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             builder.Services.AddAuthorization();
@@ -126,6 +140,7 @@ namespace API
             builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
             builder.Services.AddScoped<IEmailSender, MailSender>();
             builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
 
             // Repositories (individual registration for DI into UnitOfWork)
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -176,7 +191,7 @@ namespace API
             app.UseRateLimiter();
             app.UseFastEndpoints();
             app.MapControllers();
-            app.MapHub<NotificationHub>("/hub/notifications");
+            app.MapHub<NotificationHub>("/notifications");
             app.Run();
         }
     }

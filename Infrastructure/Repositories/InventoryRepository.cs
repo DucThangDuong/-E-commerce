@@ -30,20 +30,22 @@ namespace Infrastructure.Repositories
                 .ToDictionaryAsync(i => i.ProductId, i => i.StockQuantity, ct);
         }
 
-        public async Task UpdateStockAsync(Dictionary<int, int> purchasedItems, CancellationToken ct = default)
+        public async Task<Dictionary<int, int>> UpdateStockAsync(Dictionary<int, int> purchasedItems, CancellationToken ct = default)
         {
             var productIds = purchasedItems.Keys.ToList();
             var inventories = await _context.Inventories
                 .Where(i => productIds.Contains(i.ProductId))
                 .ToListAsync(ct);
-
+            var updatedStock = new Dictionary<int, int>();
             foreach (var inventory in inventories)
             {
                 if (purchasedItems.TryGetValue(inventory.ProductId, out int purchasedQuantity))
                 {
                     inventory.StockQuantity -= purchasedQuantity;
+                    updatedStock[inventory.ProductId] = inventory.StockQuantity;
                 }
             }
+            return updatedStock;
         }
     }
 }

@@ -1,7 +1,10 @@
 using Application.Common;
 using Application.Interfaces;
+using Application.IServices;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
+using System.Text.Json;
 
 namespace Application.Features.Order.Commands
 {
@@ -9,23 +12,24 @@ namespace Application.Features.Order.Commands
     public class AddOrderItemCustomerHandler: IRequestHandler<AddOrderItemCustomerCommand, Result>
     {
         public readonly IUnitOfWork _unitOfWork;
-        public AddOrderItemCustomerHandler(IUnitOfWork unitOfWork)
+        public readonly INotificationService _hubContext;
+        public AddOrderItemCustomerHandler(IUnitOfWork unitOfWork, INotificationService hub)
         {
             _unitOfWork = unitOfWork;
+            _hubContext = hub;
         }
         public async Task<Result> Handle(AddOrderItemCustomerCommand request, CancellationToken ct)
         {
             if (request.Items == null || !request.Items.Any())
                 return Result.Failure("Danh sách sản phẩm không được rỗng.");
+                
             List<int> productIds = request.Items.Keys.ToList();
 
-            var allExist = await _unitOfWork.ProductRepository
-                .AllProductsExistAsync(productIds, ct);
+            var allExist = await _unitOfWork.ProductRepository.AllProductsExistAsync(productIds, ct);
             if (!allExist)
                 return Result.Failure("Một hoặc nhiều sản phẩm không tồn tại.");
 
-            var stockMap = await _unitOfWork.InventoryRepository
-                .GetStockByProductIdsAsync(productIds, ct);
+            var stockMap = await _unitOfWork.InventoryRepository.GetStockByProductIdsAsync(productIds, ct);
 
             foreach (var item in request.Items)
             {
@@ -34,7 +38,8 @@ namespace Application.Features.Order.Commands
                     return Result.Failure($"Sản phẩm ID {item.Key} không đủ tồn kho. Yêu cầu: {item.Value}, Tồn kho: {stock}");
             }
 
-            await _unitOfWork.InventoryRepository.UpdateStockAsync(request.Items, ct);
+            Dictionary<int,int> availablStockAfterUpdate = await _unitOfWork.InventoryRepository.UpdateStockAsync(request.Items, ct);
+            
             Dictionary<int, decimal> productPrices = await _unitOfWork.ProductRepository.GetProductPricesAsync(productIds, ct);
 
             var orderItems = new List<OrderItem>();
@@ -44,7 +49,11 @@ namespace Application.Features.Order.Commands
             {
                 int productId = item.Key;
                 int quantity = item.Value;
-                decimal unitPrice = productPrices.ContainsKey(productId) ? productPrices[productId] : 0;
+                
+                if (!productPrices.TryGetValue(productId, out decimal unitPrice))
+                {
+                    return Result.Failure($"Sản phẩm ID {productId} không có thông tin giá hợp lệ.");
+                }
                 
                 orderItems.Add(new OrderItem
                 {
@@ -72,10 +81,18 @@ namespace Application.Features.Order.Commands
                     Address = request.Address
                 }
             };
-
             await _unitOfWork.OrderRepository.AddAsync(newOrder);
-            await _unitOfWork.CartRepository.DeleteCartItemsAsync(request.CustomerId, productIds, ct);
             await _unitOfWork.SaveChangesAsync(ct);
+            foreach(var item in availablStockAfterUpdate)
+            {
+                string jsonString = JsonSerializer.Serialize(new
+                {
+                    productId = item.Key,
+                    quantity = item.Value
+                });
+                await _hubContext.SendProductUpdateNotification(item.Key, jsonString);
+            };
+            await _unitOfWork.CartRepository.DeleteCartItemsAsync(request.CustomerId, productIds, ct);
 
             return Result.Success();
         }

@@ -7,6 +7,7 @@ namespace API.EndPoints.Product
     public class ReqGetDetalProductDto
     {
         public int productId { get; set; }
+        public string? connectionId { get; set; }
     }
 
     public class GetDetailProductEndpoint : Endpoint<ReqGetDetalProductDto>
@@ -21,7 +22,7 @@ namespace API.EndPoints.Product
 
         public override async Task HandleAsync(ReqGetDetalProductDto req, CancellationToken ct)
         {
-            var result = await Mediator.Send(new GetDetailProductQuery(req.productId), ct);
+            var result = await Mediator.Send(new GetDetailProductQuery(req.productId,req.connectionId), ct);
             if (result.IsSuccess)
             {
                 await Send.ResponseAsync(result.Data, 200, ct);
