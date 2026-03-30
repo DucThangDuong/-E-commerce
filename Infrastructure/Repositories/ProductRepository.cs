@@ -137,14 +137,6 @@ namespace Infrastructure.Repositories
             return await _context.Products.AnyAsync(e=>e.ProductId == productId);
         }
 
-        public async Task<bool> AllProductsExistAsync(List<int> productIds, CancellationToken ct = default)
-        {
-            var existingCount = await _context.Products
-                .AsNoTracking()
-                .Where(p => productIds.Contains(p.ProductId))
-                .CountAsync(ct);
-            return existingCount == productIds.Distinct().Count();
-        }
 
         public async Task<Dictionary<int, decimal>> GetProductPricesAsync(List<int> productIds, CancellationToken ct = default)
         {

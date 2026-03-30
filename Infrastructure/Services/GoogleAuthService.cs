@@ -58,8 +58,6 @@ namespace Infrastructure.Services
                         Role = "User",
                         IsActive = true,
                         CreatedAt = DateTime.UtcNow,
-                        RefreshToken = refreshToken.Token,
-                        RefreshTokenExpiryTime = refreshToken.ExpiryDate,
                         LoginProvider = "Google",
                     };
                     await _context.CustomerRepository.AddAsync(customer);
@@ -74,19 +72,18 @@ namespace Infrastructure.Services
                     {
                         customer.GoogleAvatar = picture;
                     }
-                    customer.RefreshToken = refreshToken.Token;
-                    customer.RefreshTokenExpiryTime = refreshToken.ExpiryDate;
                     customer.LoginProvider = "Google";
                 }
                 await _context.SaveChangesAsync();
 
-                string customJwtToken = _jwtTokenService.GenerateAccessToken(customer.CustomerId, email, customer.Role!);
+                string customJwtToken = _jwtTokenService.GenerateAccessToken(customer.CustomerId, customer.Role!);
                 return new AuthResultDTO
                 {
                     IsSuccess = true,
                     CustomJwtToken = customJwtToken,
                     refreshToken = refreshToken,
-                    Email=email
+                    Email=email,
+                    customerId=customer.CustomerId
                 };
             }
             catch (Exception ex)

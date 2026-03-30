@@ -1,6 +1,7 @@
 using Application.Common;
 using Application.DTOs.Response;
 using Application.Interfaces;
+using Application.IServices;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
@@ -12,9 +13,9 @@ namespace Application.Features.Brands.Queries
     public class GetAllBrandsHandler : IRequestHandler<GetAllBrandsQuery, Result<List<ResBrandDto>>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IDistributedCache _cache;
+        private readonly ICacheService _cache;
         
-        public GetAllBrandsHandler(IDistributedCache cache, IUnitOfWork unitOfWork)
+        public GetAllBrandsHandler(ICacheService cache, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _cache = cache;
@@ -25,21 +26,14 @@ namespace Application.Features.Brands.Queries
             try
             {
                 string cacheKey = $"brand";
-                string cachedData = await _cache.GetStringAsync(cacheKey);
-                if (!string.IsNullOrEmpty(cachedData))
+                var cachedData = await _cache.GetAsync<List<ResBrandDto>>(cacheKey);
+                if(cachedData != null)
                 {
-                    var cachedList = JsonSerializer.Deserialize<List<ResBrandDto>>(cachedData);
-                    if (cachedList != null)
-                    {
-                        return Result<List<ResBrandDto>>.Success(cachedList);
-                    }
+                    return Result<List<ResBrandDto>>.Success(cachedData);
                 }
                 
                 var result = await _unitOfWork.BrandRepository.GetAllBrandsAsync(query.Take, ct);
-                var cacheOptions = new DistributedCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromHours(2));
-
-                await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(result), cacheOptions, ct);
+                await _cache.SetAsync(cacheKey, result, TimeSpan.FromHours(24));
                 return Result<List<ResBrandDto>>.Success(result);
             }
             catch (Exception ex)

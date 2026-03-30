@@ -2,7 +2,10 @@ using Application.Common;
 using Application.DTOs.Response;
 using Application.Interfaces;
 using Application.IServices;
+using MassTransit;
 using MediatR;
+using StackExchange.Redis;
+using System.Text.Json;
 
 namespace Application.Features.Products.Queries
 {
@@ -12,17 +15,40 @@ namespace Application.Features.Products.Queries
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly INotificationService _notificationService;
-
-        public GetDetailProductHandler(IUnitOfWork unitOfWork, INotificationService notificationService)
+        private readonly IDatabase _redisConnection;
+        public GetDetailProductHandler(IUnitOfWork unitOfWork, INotificationService notificationService, IConnectionMultiplexer redisConnection)
         {
             _unitOfWork = unitOfWork;
             _notificationService = notificationService;
+            _redisConnection = redisConnection.GetDatabase();
         }
 
         public async Task<Result<ResProductDto>> Handle(GetDetailProductQuery query, CancellationToken ct)
         {
             try
             {
+                string cacheKeyInfo = $"product_detail_{query.ProductId}";
+                string cacheKeyStock = $"product_stock_{query.ProductId}";
+                var infoTask = _redisConnection.StringGetAsync(cacheKeyInfo);
+                var stockTask = _redisConnection.StringGetAsync(cacheKeyStock);
+                await Task.WhenAll(infoTask, stockTask);
+
+                var infoResult = infoTask.Result;
+                var stockResult = stockTask.Result;
+
+                if (!infoResult.IsNullOrEmpty)
+                {
+                    var cachedProduct = JsonSerializer.Deserialize<ResProductDto>(infoResult.ToString());
+                    if (cachedProduct != null && !stockResult.IsNull)
+                    {
+                        if (int.TryParse(stockResult.ToString(), out int stockQuantity))
+                        {
+                            cachedProduct.StockQuantity = stockQuantity;
+                        }
+                        return Result<ResProductDto>.Success(cachedProduct);
+                    }
+                }
+
                 var product = await _unitOfWork.ProductRepository.GetProductDetailAsync(query.ProductId, ct);
                 if (product == null)
                 {
@@ -32,7 +58,8 @@ namespace Application.Features.Products.Queries
                 {
                     await _notificationService.AddConnectionToGroup(query.ConnectionId, $"Product_{query.ProductId}");
                 }
-
+                await _redisConnection.StringSetAsync(cacheKeyInfo, JsonSerializer.Serialize(product), TimeSpan.FromMinutes(10));
+                await _redisConnection.StringSetAsync(cacheKeyStock, product.StockQuantity.ToString(), TimeSpan.FromMinutes(10));
                 return Result<ResProductDto>.Success(product);
             }
             catch (Exception ex)

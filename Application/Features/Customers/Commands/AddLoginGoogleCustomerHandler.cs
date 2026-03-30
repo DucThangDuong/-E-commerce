@@ -5,6 +5,7 @@ using Application.Interfaces;
 using Application.IServices;
 using MassTransit;
 using MediatR;
+using StackExchange.Redis;
 
 namespace Application.Features.Customers.Commands
 {
@@ -14,11 +15,13 @@ namespace Application.Features.Customers.Commands
     {
         private readonly IGoogleAuthService _googleAuthService;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IDatabase _redisconnection;
 
-        public AddLoginGoogleCustomerHandler(IGoogleAuthService googleAuthService, IPublishEndpoint publishEndpoint)
+        public AddLoginGoogleCustomerHandler(IGoogleAuthService googleAuthService, IPublishEndpoint publishEndpoint, IConnectionMultiplexer multiplexer)
         {
             _googleAuthService = googleAuthService;
             _publishEndpoint = publishEndpoint;
+            _redisconnection = multiplexer.GetDatabase();
         }
 
         public async Task<Result<LoginResponse>> Handle(AddLoginGoogleCustomerCommand command, CancellationToken ct)
@@ -26,9 +29,12 @@ namespace Application.Features.Customers.Commands
             var result = await _googleAuthService.HandleGoogleLoginAsync(command.IdToken);
             if (result != null && result.IsSuccess)
             {
-                await _publishEndpoint.Publish(new Application.DTOs.Services.SendMail(result.Email!, "Đăng nhập thành công",
+                await _publishEndpoint.Publish(new SendMail(result.Email!, "Đăng nhập thành công",
                     $"Xin chào {result.Email},\n\nBạn đã đăng nhập thành công bằng tài khoản Google của mình. " +
                     $"Nếu không phải là bạn, vui lòng liên hệ với chúng tôi ngay lập tức.\n\nTrân trọng)"), ct);
+                string redisKey = $"RefreshToken:{result.customerId}";
+                await _redisconnection.KeyDeleteAsync(redisKey);
+                await _redisconnection.StringSetAsync(redisKey, result.refreshToken.Token, TimeSpan.FromDays(7));
                 return Result<LoginResponse>.Success(new LoginResponse
                 {
                     AccessToken = result.CustomJwtToken!,

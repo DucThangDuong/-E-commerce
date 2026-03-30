@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System.Text;
 using System.Threading.RateLimiting;
 
@@ -78,6 +79,12 @@ namespace API
                 options.Configuration = builder.Configuration["RedisCache"];
                 options.InstanceName = "MyApp_";
             });
+            var redisConnectionString = builder.Configuration["RedisCache"] ?? "localhost:6379";
+            builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+            {
+                return ConnectionMultiplexer.Connect(redisConnectionString);
+            });
+            builder.Services.AddSingleton<ICacheService, CacheService>();
 
             // ──────────── Rate Limiting ────────────
             builder.Services.AddRateLimiter(options =>

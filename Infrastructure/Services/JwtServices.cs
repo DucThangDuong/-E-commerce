@@ -1,5 +1,6 @@
 ﻿using Application.DTOs.Services;
 using Application.IServices;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -25,12 +26,11 @@ namespace Infrastructure.Services
         }
 
 
-        public string GenerateAccessToken(int userId, string email, string role)
+        public string GenerateAccessToken(int userId, string role)
         {
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                new Claim(ClaimTypes.Email, email),
                 new Claim(ClaimTypes.Role, role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -60,6 +60,24 @@ namespace Infrastructure.Services
                     ExpiryDate = DateTime.UtcNow.AddDays(7)
                 };
             }
+        }
+        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = false,
+                RequireExpirationTime = true,
+                ValidateIssuerSigningKey = true,
+                RequireSignedTokens = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey)),
+                ClockSkew = TimeSpan.Zero
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+            return principal;
         }
 
     }

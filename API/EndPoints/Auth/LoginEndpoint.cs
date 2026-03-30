@@ -1,4 +1,5 @@
 using API.DTOs;
+using Application.Features.Customers.Commands;
 using Application.Features.Customers.Queries;
 using FastEndpoints;
 using MediatR;
@@ -18,7 +19,7 @@ public class LoginEndpoint : Endpoint<ReqLoginDTo>
 
     public override async Task HandleAsync(ReqLoginDTo req, CancellationToken ct)
     {
-        var result = await Mediator.Send(new GetLoginUserQueries(req.Email, req.Password), ct);
+        var result = await Mediator.Send(new AddLoginUserCommands(req.Email, req.Password), ct);
         if (result.IsSuccess)
         {
             if (result.Data != null)

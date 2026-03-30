@@ -151,13 +151,6 @@ public partial class EcommerceOrderSystemContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("phone_number");
-            entity.Property(e => e.RefreshToken)
-                .HasMaxLength(256)
-                .IsUnicode(false)
-                .HasColumnName("refreshToken");
-            entity.Property(e => e.RefreshTokenExpiryTime)
-                .HasColumnType("datetime")
-                .HasColumnName("refreshTokenExpiryTime");
             entity.Property(e => e.Role)
                 .HasMaxLength(50)
                 .IsUnicode(false)

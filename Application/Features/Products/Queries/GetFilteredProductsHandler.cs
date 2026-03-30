@@ -1,9 +1,8 @@
 using Application.Common;
 using Application.DTOs.Response;
 using Application.Interfaces;
+using Application.IServices;
 using MediatR;
-using Microsoft.Extensions.Caching.Distributed;
-using System.Text.Json;
 
 namespace Application.Features.Products.Queries
 {
@@ -12,9 +11,9 @@ namespace Application.Features.Products.Queries
     public class GetFilteredProductsHandler : IRequestHandler<GetFilteredProductsQuery, Result<List<ResProductDto>>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IDistributedCache _cache;
+        private readonly ICacheService _cache;
 
-        public GetFilteredProductsHandler(IUnitOfWork unitOfWork, IDistributedCache cache)
+        public GetFilteredProductsHandler(IUnitOfWork unitOfWork, ICacheService cache)
         {
             _unitOfWork = unitOfWork;
             _cache = cache;
@@ -26,23 +25,17 @@ namespace Application.Features.Products.Queries
             {
                 string cacheKey = $"products_{string.Join("_", query.CategoryIds ?? new List<int>())}" +
                     $"_{string.Join("_", query.BrandIds ?? new List<int>())}_{query.Skip}_{query.Take}";
-                string cachedData = await _cache.GetStringAsync(cacheKey, ct);
-                if (!string.IsNullOrEmpty(cachedData))
+                var cachedData = await _cache.GetAsync<List<ResProductDto>>(cacheKey);
+                if (cachedData != null)
                 {
-                    var cachedProducts = JsonSerializer.Deserialize<List<ResProductDto>>(cachedData);
-                    if (cachedProducts != null)
-                    {
-                        return Result<List<ResProductDto>>.Success(cachedProducts);
-                    }
+                    return Result<List<ResProductDto>>.Success(cachedData);
                 }
                 var result = await _unitOfWork.ProductRepository.GetFilteredProductsAsync(query.CategoryIds, query.BrandIds, query.Skip, query.Take, ct);
                 if (result != null)
                 {
-                    var cacheOptions = new DistributedCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
-                    await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(result), cacheOptions, ct);
+                    await _cache.SetAsync(cacheKey, result, TimeSpan.FromMinutes(10));
                 }
-                return Result<List<ResProductDto>>.Success(result);
+                return Result<List<ResProductDto>>.Success(result ?? new List<ResProductDto>());
             }
             catch (Exception ex)
             {

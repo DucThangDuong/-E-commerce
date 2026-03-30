@@ -1,9 +1,8 @@
 using Application.Common;
 using Application.DTOs.Response;
 using Application.Interfaces;
+using Application.IServices;
 using MediatR;
-using Microsoft.Extensions.Caching.Distributed;
-using System.Text.Json;
 
 namespace Application.Features.Categories.Queries
 {
@@ -12,8 +11,8 @@ namespace Application.Features.Categories.Queries
     public class GetAllCategoryHandler : IRequestHandler<GetAllCategoryQuery, Result<List<ResCategoryDto>>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IDistributedCache _cache;
-        public GetAllCategoryHandler( IDistributedCache cache, IUnitOfWork unitOfWork)
+        private readonly ICacheService _cache;
+        public GetAllCategoryHandler( ICacheService cache, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _cache = cache;
@@ -24,20 +23,14 @@ namespace Application.Features.Categories.Queries
             try
             {
                 string cacheKey = $"category";
-                string cachedData = await _cache.GetStringAsync(cacheKey);
-                if (!string.IsNullOrEmpty(cachedData))
+                var cachedData = await _cache.GetAsync<List<ResCategoryDto>>(cacheKey);
+                if (cachedData != null)
                 {
-                    var cachedList = JsonSerializer.Deserialize<List<ResCategoryDto>>(cachedData);
-                    if (cachedList != null)
-                    {
-                        return Result<List<ResCategoryDto>>.Success(cachedList);
-                    }
+                    return Result<List<ResCategoryDto>>.Success(cachedData);
                 }
-                var result = await _unitOfWork.CategoryRepository.GetAllCategoriesAsync(query.Take, ct);
-                var cacheOptions = new DistributedCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromHours(2));
 
-                await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(result), cacheOptions, ct);
+                var result = await _unitOfWork.CategoryRepository.GetAllCategoriesAsync(query.Take, ct);
+                await _cache.SetAsync(cacheKey,result, TimeSpan.FromHours(24));
                 return Result<List<ResCategoryDto>>.Success(result);
             }
             catch (Exception ex)

@@ -18,6 +18,7 @@ public class AuthResultDTO
     public string? ErrorMessage { get; set; }
     public RefreshToken refreshToken { get; set; } = null!;
     public string? Email { get; set; }
+    public int customerId { get; set; }
 }
 public enum StorageType
 {

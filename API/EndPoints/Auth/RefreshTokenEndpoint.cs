@@ -21,6 +21,17 @@ public class RefreshTokenEndpoint : EndpointWithoutRequest
 
         if (result.IsSuccess)
         {
+            if (result.Data != null)
+            {
+                HttpContext.Response.Cookies.Append("refreshToken", result.Data.RefreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Expires = result.Data.RefreshTokenExpiryTime,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    IsEssential = true
+                });
+            }
             await Send.ResponseAsync(new { success = true, accessToken = result.Data!.AccessToken }, 200, ct);
         }
         else

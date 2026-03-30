@@ -4,6 +4,7 @@ using Application.IServices;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
+using StackExchange.Redis;
 using System.Text.Json;
 
 namespace Application.Features.Order.Commands
@@ -13,21 +14,19 @@ namespace Application.Features.Order.Commands
     {
         public readonly IUnitOfWork _unitOfWork;
         public readonly INotificationService _hubContext;
-        public AddOrderItemCustomerHandler(IUnitOfWork unitOfWork, INotificationService hub)
+        private readonly IDatabase _redisConnection;
+        public AddOrderItemCustomerHandler(IUnitOfWork unitOfWork, INotificationService hub, IConnectionMultiplexer multiplexer)
         {
             _unitOfWork = unitOfWork;
             _hubContext = hub;
+            _redisConnection = multiplexer.GetDatabase();
         }
         public async Task<Result> Handle(AddOrderItemCustomerCommand request, CancellationToken ct)
         {
             if (request.Items == null || !request.Items.Any())
                 return Result.Failure("Danh sách sản phẩm không được rỗng.");
-                
-            List<int> productIds = request.Items.Keys.ToList();
 
-            var allExist = await _unitOfWork.ProductRepository.AllProductsExistAsync(productIds, ct);
-            if (!allExist)
-                return Result.Failure("Một hoặc nhiều sản phẩm không tồn tại.");
+            List<int> productIds = request.Items.Keys.ToList();
 
             var stockMap = await _unitOfWork.InventoryRepository.GetStockByProductIdsAsync(productIds, ct);
 
@@ -38,8 +37,8 @@ namespace Application.Features.Order.Commands
                     return Result.Failure($"Sản phẩm ID {item.Key} không đủ tồn kho. Yêu cầu: {item.Value}, Tồn kho: {stock}");
             }
 
-            Dictionary<int,int> availablStockAfterUpdate = await _unitOfWork.InventoryRepository.UpdateStockAsync(request.Items, ct);
-            
+            Dictionary<int, int> availablStockAfterUpdate = await _unitOfWork.InventoryRepository.UpdateStockAsync(request.Items, ct);
+
             Dictionary<int, decimal> productPrices = await _unitOfWork.ProductRepository.GetProductPricesAsync(productIds, ct);
 
             var orderItems = new List<OrderItem>();
@@ -49,12 +48,12 @@ namespace Application.Features.Order.Commands
             {
                 int productId = item.Key;
                 int quantity = item.Value;
-                
+
                 if (!productPrices.TryGetValue(productId, out decimal unitPrice))
                 {
                     return Result.Failure($"Sản phẩm ID {productId} không có thông tin giá hợp lệ.");
                 }
-                
+
                 orderItems.Add(new OrderItem
                 {
                     ProductId = productId,
@@ -67,23 +66,29 @@ namespace Application.Features.Order.Commands
 
             var newOrder = new Domain.Entities.Order
             {
-                CustomerId = request.CustomerId, 
+                CustomerId = request.CustomerId,
                 OrderDate = DateTime.UtcNow,
                 TotalAmount = totalAmount,
-                Status = "Pending", 
-                OrderItems = orderItems, 
-                Payment = new Payment 
+                Status = "Pending",
+                OrderItems = orderItems,
+                Payment = new Payment
                 {
                     Amount = totalAmount,
-                    Provider = "COD", 
-                    PaymentStatus = "Unpaid", 
+                    Provider = "COD",
+                    PaymentStatus = "Unpaid",
                     PhoneNumber = request.PhoneNumber,
                     Address = request.Address
                 }
             };
             await _unitOfWork.OrderRepository.AddAsync(newOrder);
             await _unitOfWork.SaveChangesAsync(ct);
-            foreach(var item in availablStockAfterUpdate)
+            foreach (var item in orderItems)
+            {
+                string cacheKeyStock = $"product_stock_{item.ProductId}";
+                await _redisConnection.StringDecrementAsync(cacheKeyStock, item.Quantity);
+            }
+            ;
+            foreach (var item in availablStockAfterUpdate)
             {
                 string jsonString = JsonSerializer.Serialize(new
                 {
@@ -91,7 +96,8 @@ namespace Application.Features.Order.Commands
                     quantity = item.Value
                 });
                 await _hubContext.SendProductUpdateNotification(item.Key, jsonString);
-            };
+            }
+            ;
             await _unitOfWork.CartRepository.DeleteCartItemsAsync(request.CustomerId, productIds, ct);
 
             return Result.Success();

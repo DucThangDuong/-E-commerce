@@ -39,10 +39,6 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<Customer?> GetUserByRefreshTokenAsync(string refreshToken)
-        {
-            return await _context.Customers.AsNoTracking().FirstOrDefaultAsync(e => e.RefreshToken == refreshToken);
-        }
 
         public async Task<Customer?> GetByEmailAsync(string email)
         {
@@ -84,13 +80,6 @@ namespace Infrastructure.Repositories
                     .SetProperty(x => x.Name, n => name ?? n.Name)
                     .SetProperty(x => x.PhoneNumber, n => phoneNumber ?? n.PhoneNumber)
                     .SetProperty(x => x.Address, n => address ?? n.Address), ct);
-        }
-
-        public async Task<int> RevokeRefreshTokenAsync(int customerId)
-        {
-            return await _context.Customers.Where(e => e.CustomerId == customerId).ExecuteUpdateAsync(s => s
-                .SetProperty(x => x.RefreshToken, (string?)null)
-                .SetProperty(x => x.RefreshTokenExpiryTime, (DateTime?)null));
         }
     }
 }
