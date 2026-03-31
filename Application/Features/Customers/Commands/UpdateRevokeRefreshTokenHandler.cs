@@ -1,16 +1,10 @@
 ﻿using Application.Common;
-using Application.Interfaces;
 using MediatR;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Customers.Commands
 {
-    public record UpdateRevokeRefreshTokenCommand(int customerId) : IRequest<Result>;
+    public record UpdateRevokeRefreshTokenCommand(int customerId,string? accessToken) : IRequest<Result>;
     public class UpdateRevokeRefreshTokenHandler : IRequestHandler<UpdateRevokeRefreshTokenCommand, Result>
     {
         private readonly IDatabase _redisConnection;
@@ -25,6 +19,10 @@ namespace Application.Features.Customers.Commands
             {
                 string redisKey = $"RefreshToken:{request.customerId}";
                 await _redisConnection.KeyDeleteAsync(redisKey);
+                if (!string.IsNullOrEmpty(request.accessToken))
+                {
+                    await _redisConnection.StringSetAsync($"Blacklist:{request.accessToken}", "banned", TimeSpan.FromMinutes(15));
+                }
                 return Result.Success();
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
 using Amazon.S3;
+using API.Middleware;
 using Application.Consumers;
 using Application.Interfaces;
 using Application.IServices;
@@ -194,6 +195,7 @@ namespace API
             app.UseCors("CORS");
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseMiddleware<AccessTokenBlacklistMiddleware>();
             app.UseAuthorization();
             app.UseRateLimiter();
             app.UseFastEndpoints();

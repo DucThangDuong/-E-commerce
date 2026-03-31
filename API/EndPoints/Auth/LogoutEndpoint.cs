@@ -1,4 +1,4 @@
-using API.Extendsion;
+﻿using API.Extendsion;
 using Application.Features.Customers.Commands;
 using FastEndpoints;
 using MediatR;
@@ -18,10 +18,20 @@ public class LogoutEndpoint : EndpointWithoutRequest
     public override async Task HandleAsync(CancellationToken ct)
     {
         int userId = HttpContext.User.GetUserId();
-        var result = await Mediator.Send(new UpdateRevokeRefreshTokenCommand(userId));
+        string? accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+        var result = await Mediator.Send(new UpdateRevokeRefreshTokenCommand(userId,accessToken));
         if (result.IsSuccess)
         {
+            HttpContext.Response.Cookies.Delete("refreshToken", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTimeOffset.UtcNow.AddDays(-1),
+                IsEssential = true
+            });
             await Send.NoContentAsync();
+            return;
         }
         await Send.ResponseAsync(new { message = result.Error }, result.StatusCode, ct);
     }

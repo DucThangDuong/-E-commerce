@@ -21,8 +21,6 @@ CREATE TABLE Customers (
     address NVARCHAR(500),
 
     createdAt DATETIME NOT NULL DEFAULT GETDATE(),
-    refreshToken VARCHAR(256),
-    refreshTokenExpiryTime DATETIME,
 
     role VARCHAR(50) DEFAULT 'User' CHECK(role IN ('User','Admin')),
     loginProvider VARCHAR(20) NULL Check(LoginProvider In('Custom','Google')),
