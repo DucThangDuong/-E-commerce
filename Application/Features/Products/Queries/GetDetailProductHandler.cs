@@ -27,21 +27,16 @@ namespace Application.Features.Products.Queries
         {
             try
             {
-                string cacheKeyInfo = $"product_detail_{query.ProductId}";
-                string cacheKeyStock = $"product_stock_{query.ProductId}";
-                var infoTask = _redisConnection.StringGetAsync(cacheKeyInfo);
-                var stockTask = _redisConnection.StringGetAsync(cacheKeyStock);
-                await Task.WhenAll(infoTask, stockTask);
-
-                var infoResult = infoTask.Result;
-                var stockResult = stockTask.Result;
-
-                if (!infoResult.IsNullOrEmpty)
+                string cacheKeyInfo = $"Product:Detail:{query.ProductId}";
+                string cacheKeyStock = $"Product:Stock:{query.ProductId}";
+                var infoTask = await _redisConnection.StringGetAsync(cacheKeyInfo);
+                var stockTask = await _redisConnection.StringGetAsync(cacheKeyStock);
+                if (!infoTask.IsNullOrEmpty)
                 {
-                    var cachedProduct = JsonSerializer.Deserialize<ResProductDto>(infoResult.ToString());
-                    if (cachedProduct != null && !stockResult.IsNull)
+                    var cachedProduct = JsonSerializer.Deserialize<ResProductDto>(infoTask.ToString());
+                    if (cachedProduct != null && !stockTask.IsNull)
                     {
-                        if (int.TryParse(stockResult.ToString(), out int stockQuantity))
+                        if (int.TryParse(stockTask.ToString(), out int stockQuantity))
                         {
                             cachedProduct.StockQuantity = stockQuantity;
                         }

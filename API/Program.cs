@@ -54,7 +54,9 @@ namespace API
             // ──────────── MassTransit + RabbitMQ ────────────
             builder.Services.AddMassTransit(x =>
             {
+                x.AddDelayedMessageScheduler();
                 x.AddConsumer<SendMail>();
+                x.AddConsumer<CheckOrderExpirationConsumer>();
 
                 x.AddEntityFrameworkOutbox<EcommerceOrderSystemContext>(o =>
                 {
@@ -69,6 +71,7 @@ namespace API
                         h.Password(builder.Configuration["RabbitMQ:Password"] ?? "");
                     });
 
+                    cfg.UseDelayedMessageScheduler();
                     cfg.ConfigureEndpoints(context);
                 });
             });

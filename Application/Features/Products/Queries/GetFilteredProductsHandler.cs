@@ -39,7 +39,7 @@ namespace Application.Features.Products.Queries
             }
             catch (Exception ex)
             {
-                return Result<List<ResProductDto>>.Failure(ex.Message);
+                return Result<List<ResProductDto>>.Failure(ex.Message, 400);
             }
         }
     }

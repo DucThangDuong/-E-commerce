@@ -74,7 +74,6 @@ namespace Infrastructure.Services
                     }
                     customer.LoginProvider = "Google";
                 }
-                await _context.SaveChangesAsync();
 
                 string customJwtToken = _jwtTokenService.GenerateAccessToken(customer.CustomerId, customer.Role!);
                 return new AuthResultDTO

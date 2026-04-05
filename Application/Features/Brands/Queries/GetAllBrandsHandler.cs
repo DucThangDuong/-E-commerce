@@ -38,7 +38,7 @@ namespace Application.Features.Brands.Queries
             }
             catch (Exception ex)
             {
-                return Result<List<ResBrandDto>>.Failure(ex.Message);
+                return Result<List<ResBrandDto>>.Failure(ex.Message, 400);
             }
         }
     }

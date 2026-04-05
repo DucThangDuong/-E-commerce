@@ -12,5 +12,6 @@ namespace Application.Interfaces
     {
         public Task AddAsync(Order order);
         public Task<List<ResOrder>> GetOrdersByCustomerIdAsync(int customerId);
+        public Task<Order?> GetByIdAsync(int orderId);
     }
 }

@@ -28,5 +28,5 @@ public class Result<T> : Result
     }
 
     public static Result<T> Success(T data) => new(true, data, null, 200);
-    public static new Result<T> Failure(string error, int statusCode = 400) => new(false, default, error, statusCode);
+    public static Result<T> Failure(string error, int statusCode = 400, T? data = default) => new(false, data, error, statusCode);
 }

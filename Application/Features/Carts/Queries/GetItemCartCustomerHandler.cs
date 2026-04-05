@@ -25,7 +25,7 @@ namespace Application.Features.Carts.Queries
             }
             catch (Exception ex)
             {
-                return Result<List<ResCartDto>>.Failure(ex.Message);
+                return Result<List<ResCartDto>>.Failure(ex.Message, 400);
             }
         }
     }

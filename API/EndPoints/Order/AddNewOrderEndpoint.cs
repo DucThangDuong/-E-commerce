@@ -41,7 +41,7 @@ namespace API.EndPoints.Order
             }
             else
             {
-                await Send.ResponseAsync(new { error = result.Error }, statusCode: result.StatusCode, ct);
+                await Send.ResponseAsync(new { message = result.Error, outOfStockItems = result.Data }, statusCode: result.StatusCode, ct);
             }
         }
     }

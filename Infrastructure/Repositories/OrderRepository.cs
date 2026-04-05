@@ -22,6 +22,11 @@ namespace Infrastructure.Repositories
             await _context.Orders.AddAsync(order);
         }
 
+        public async Task<Order?> GetByIdAsync(int orderId)
+        {
+            return await _context.Orders.FirstOrDefaultAsync(e => e.OrderId == orderId);
+        }
+
         public async Task<List<ResOrder>> GetOrdersByCustomerIdAsync(int customerId)
         {
             var orders = await _context.Orders
