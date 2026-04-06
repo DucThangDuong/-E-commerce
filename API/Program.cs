@@ -152,6 +152,7 @@ namespace API
             builder.Services.AddScoped<IEmailSender, MailSender>();
             builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddScoped<IVnPayService, VnPayService>();
 
             // Repositories (individual registration for DI into UnitOfWork)
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();

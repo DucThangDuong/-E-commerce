@@ -34,7 +34,7 @@ namespace API.EndPoints.Order
                     items.Add(item.ProductId, item.Quantity);
                 }
             }
-            var result = await Mediator.Send(new AddOrderItemCustomerCommand(userId, items, req.Address, req.PhoneNumber), ct);
+            var result = await Mediator.Send(new AddOrderItemCustomerCommand(userId, items), ct);
             if (result.IsSuccess)
             {
                 await Send.NoContentAsync(ct);

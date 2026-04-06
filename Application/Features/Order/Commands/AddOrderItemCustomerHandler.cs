@@ -9,8 +9,8 @@ using System.Text.Json;
 
 namespace Application.Features.Order.Commands
 {
-    public record AddOrderItemCustomerCommand(int CustomerId, Dictionary<int,int> Items, string Address, string PhoneNumber) : IRequest<Result<List<int>>>;
-    public class AddOrderItemCustomerHandler: IRequestHandler<AddOrderItemCustomerCommand, Result<List<int>>>
+    public record AddOrderItemCustomerCommand(int CustomerId, Dictionary<int,int> Items) : IRequest<Result<List<int>>>;
+    public class AddOrderItemCustomerHandler : IRequestHandler<AddOrderItemCustomerCommand, Result<List<int>>>
     {
         public readonly IUnitOfWork _unitOfWork;
         public readonly INotificationService _hubContext;
@@ -69,7 +69,7 @@ namespace Application.Features.Order.Commands
 
             if (outOfStockItems.Any())
             {
-                return Result<List<int>>.Failure("Các sản phẩm không đủ tồn kho.", 400,outOfStockItems);
+                return Result<List<int>>.Failure("Các sản phẩm không đủ tồn kho.", 400, outOfStockItems);
             }
 
             try
@@ -81,57 +81,49 @@ namespace Application.Features.Order.Commands
                     await _redisConnection.StringDecrementAsync(cacheKeyStock, item.Value);
                 }
 
-            Dictionary<int, decimal> productPrices = await _unitOfWork.ProductRepository.GetProductPricesAsync(productIds, ct);
+                Dictionary<int, decimal> productPrices = await _unitOfWork.ProductRepository.GetProductPricesAsync(productIds, ct);
 
-            var orderItems = new List<OrderItem>();
-            decimal totalAmount = 0;
+                var orderItems = new List<OrderItem>();
+                decimal totalAmount = 0;
 
-            foreach (var item in request.Items)
-            {
-                int productId = item.Key;
-                int quantity = item.Value;
-
-                if (!productPrices.TryGetValue(productId, out decimal unitPrice))
+                foreach (var item in request.Items)
                 {
-                    return Result<List<int>>.Failure($"Sản phẩm ID {productId} không có thông tin giá hợp lệ.");
+                    int productId = item.Key;
+                    int quantity = item.Value;
+
+                    if (!productPrices.TryGetValue(productId, out decimal unitPrice))
+                    {
+                        return Result<List<int>>.Failure($"Sản phẩm ID {productId} không có thông tin giá hợp lệ.");
+                    }
+
+                    orderItems.Add(new OrderItem
+                    {
+                        ProductId = productId,
+                        Quantity = quantity,
+                        UnitPriceAtPurchase = unitPrice
+                    });
+
+                    totalAmount += unitPrice * quantity;
                 }
 
-                orderItems.Add(new OrderItem
+                var newOrder = new Domain.Entities.Order
                 {
-                    ProductId = productId,
-                    Quantity = quantity,
-                    UnitPriceAtPurchase = unitPrice
+                    CustomerId = request.CustomerId,
+                    OrderDate = DateTime.UtcNow,
+                    TotalAmount = totalAmount,
+                    Status = "Pending",
+                    OrderItems = orderItems,
+                };
+                await _unitOfWork.OrderRepository.AddAsync(newOrder);
+                await _unitOfWork.SaveChangesAsync(ct);
+
+                string reservationKey = $"Order:Reservation:{newOrder.OrderId}";
+                await _redisConnection.StringSetAsync(reservationKey, JsonSerializer.Serialize(request.Items), TimeSpan.FromMinutes(15));
+
+                await _publishEndpoint.Publish(new DTOs.Services.ReserveOrderEvent(newOrder.OrderId), context =>
+                {
+                    context.Delay = TimeSpan.FromMinutes(15);
                 });
-
-                totalAmount += unitPrice * quantity;
-            }
-
-            var newOrder = new Domain.Entities.Order
-            {
-                CustomerId = request.CustomerId,
-                OrderDate = DateTime.UtcNow,
-                TotalAmount = totalAmount,
-                Status = "Pending",
-                OrderItems = orderItems,
-                Payment = new Payment
-                {
-                    Amount = totalAmount,
-                    Provider = "COD",
-                    PaymentStatus = "Unpaid",
-                    PhoneNumber = request.PhoneNumber,
-                    Address = request.Address
-                }
-            };
-            await _unitOfWork.OrderRepository.AddAsync(newOrder);
-            await _unitOfWork.SaveChangesAsync(ct);
-            
-            string reservationKey = $"Order:Reservation:{newOrder.OrderId}";
-            await _redisConnection.StringSetAsync(reservationKey, JsonSerializer.Serialize(request.Items), TimeSpan.FromMinutes(15));
-
-            await _publishEndpoint.Publish(new DTOs.Services.ReserveOrderEvent(newOrder.OrderId), context =>
-            {
-                context.Delay = TimeSpan.FromMinutes(15);
-            });
 
             }
             catch (Exception)
