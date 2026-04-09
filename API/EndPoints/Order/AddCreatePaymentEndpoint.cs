@@ -17,6 +17,7 @@ namespace API.EndPoints.Order
         {
             Post("/order/create-payment");
             AuthSchemes(JwtBearerDefaults.AuthenticationScheme);
+            Options(x => x.RequireRateLimiting("create_payment"));
         }
         public override async Task HandleAsync(ReqOrderInfo req, CancellationToken ct)
         {

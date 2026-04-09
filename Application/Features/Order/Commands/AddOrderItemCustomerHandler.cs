@@ -115,6 +115,7 @@ namespace Application.Features.Order.Commands
                     OrderItems = orderItems,
                 };
                 await _unitOfWork.OrderRepository.AddAsync(newOrder);
+                await _unitOfWork.CartRepository.DeleteCartItemsAsync(request.CustomerId, productIds, ct);
                 await _unitOfWork.SaveChangesAsync(ct);
 
                 string reservationKey = $"Order:Reservation:{newOrder.OrderId}";
@@ -124,7 +125,7 @@ namespace Application.Features.Order.Commands
                 {
                     context.Delay = TimeSpan.FromMinutes(15);
                 });
-
+                return Result<List<int>>.Success(new List<int> { newOrder.OrderId },201);
             }
             catch (Exception)
             {
@@ -135,9 +136,7 @@ namespace Application.Features.Order.Commands
                 }
                 throw;
             }
-            await _unitOfWork.CartRepository.DeleteCartItemsAsync(request.CustomerId, productIds, ct);
 
-            return Result<List<int>>.Success(new List<int>());
         }
     }
 }

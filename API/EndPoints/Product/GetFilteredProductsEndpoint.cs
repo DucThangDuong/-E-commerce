@@ -20,6 +20,7 @@ namespace API.EndPoints.Product
         {
             Post("/product/filter");
             AllowAnonymous();
+            Options(x => x.RequireRateLimiting("search_strict"));
         }
 
         public override async Task HandleAsync(ReqGetFilteredProductsDto req, CancellationToken ct)

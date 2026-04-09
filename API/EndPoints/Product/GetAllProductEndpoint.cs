@@ -18,6 +18,7 @@ namespace API.EndPoints.Product
         {
             Get("/product");
             AllowAnonymous();
+            Options(x => x.RequireRateLimiting("search_strict"));
         }
 
         public override async Task HandleAsync(ReqGetProductDto req, CancellationToken ct)

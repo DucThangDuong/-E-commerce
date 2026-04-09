@@ -21,7 +21,7 @@ namespace API.EndPoints.Product
         {
             Post("/product/featured");
             AuthSchemes(JwtBearerDefaults.AuthenticationScheme);
-            //Roles("Admin");
+            Roles("Admin");
         }
 
         public override async Task HandleAsync(ReqAddFeaturedProductDto req, CancellationToken ct)

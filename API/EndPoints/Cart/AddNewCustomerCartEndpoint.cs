@@ -15,6 +15,7 @@ namespace API.EndPoints.Cart
         {
             Post("/cart");
             AuthSchemes(JwtBearerDefaults.AuthenticationScheme);
+            Options(x => x.RequireRateLimiting("cart_strict"));
         }
 
         public override async Task HandleAsync(ReqCreateCartDto req, CancellationToken ct)

@@ -3,8 +3,6 @@
     public class ReqAddNewOrder
     {
         public List<ProductOrder> Items { get; set; } = null!;
-        //public string Address { get; set; } = null!;
-        //public string PhoneNumber { get; set; } = null!;
     }
     public class ProductOrder
     {
@@ -17,5 +15,8 @@
         public double Amount { get; set; }
         public string OrderDescription { get; set; }
         public string FullName { get; set; }
+        public string Address { get; set; } = null!;
+        public string PhoneNumber { get; set; } = null!;
+        public int TypePayment { get; set; } // 1: Thanh toán online, 0: Thanh toán khi nhận hàng
     }
 }

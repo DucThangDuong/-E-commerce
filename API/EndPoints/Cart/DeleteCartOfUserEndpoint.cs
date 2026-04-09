@@ -16,6 +16,7 @@ namespace API.EndPoints.Cart
         {
             Delete("/cart");
             AuthSchemes(JwtBearerDefaults.AuthenticationScheme);
+            Options(x => x.RequireRateLimiting("cart_strict"));
         }
 
         public override async Task HandleAsync(ReqDeleteCartDto req, CancellationToken ct)

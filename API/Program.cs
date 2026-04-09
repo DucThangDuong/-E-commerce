@@ -93,16 +93,71 @@ namespace API
             // ──────────── Rate Limiting ────────────
             builder.Services.AddRateLimiter(options =>
             {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+                var getPartitionKey = (HttpContext httpContext) =>
+                {
+                    var isAuth = httpContext.User.Identity?.IsAuthenticated == true;
+                    string? userId = httpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+                    if (isAuth && !string.IsNullOrEmpty(userId))
+                    {
+                        return $"user_{userId}";
+                    }
+                    
+                    return $"ip_{httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown"}";
+                };
+
+                // Global Limiter
                 options.AddPolicy("auth_strict", httpContext =>
                     RateLimitPartition.GetFixedWindowLimiter(
-                        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                        partitionKey: $"auth_{httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown"}",
                         factory: _ => new FixedWindowRateLimiterOptions
                         {
                             PermitLimit = 5,
                             QueueLimit = 0,
                             Window = TimeSpan.FromSeconds(30)
                         }));
-                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+                options.AddPolicy("order_strict", httpContext =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: $"order_{getPartitionKey(httpContext)}",
+                        factory: _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 4,
+                            QueueLimit = 0,
+                            Window = TimeSpan.FromSeconds(60)
+                        }));
+
+                options.AddPolicy("create_payment", httpContext =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: $"payment_{getPartitionKey(httpContext)}",
+                        factory: _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 5,
+                            QueueLimit = 0,
+                            Window = TimeSpan.FromMinutes(1)
+                        }));
+
+                options.AddPolicy("search_strict", httpContext =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: $"search_{getPartitionKey(httpContext)}",
+                        factory: _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 15,
+                            QueueLimit = 0,
+                            Window = TimeSpan.FromSeconds(10)
+                        }));
+
+                options.AddPolicy("cart_strict", httpContext =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: $"cart_{getPartitionKey(httpContext)}",
+                        factory: _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 20,
+                            QueueLimit = 0,
+                            Window = TimeSpan.FromSeconds(10)
+                        }));
             });
 
             // ──────────── Authentication (JWT) ────────────

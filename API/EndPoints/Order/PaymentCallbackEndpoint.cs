@@ -17,6 +17,7 @@ namespace API.EndPoints.Order
         {
             Get("/order/payment-callback");
             AuthSchemes(JwtBearerDefaults.AuthenticationScheme);
+            Options(x => x.RequireRateLimiting("create_payment"));
         }
 
         public override async Task HandleAsync(CancellationToken ct)

@@ -18,6 +18,7 @@ namespace API.EndPoints.Order
         {
             Post("/order");
             AuthSchemes(JwtBearerDefaults.AuthenticationScheme);
+            Options(x => x.RequireRateLimiting("order_strict"));
         }
         public override async Task HandleAsync(ReqAddNewOrder req, CancellationToken ct)
         {
@@ -37,11 +38,18 @@ namespace API.EndPoints.Order
             var result = await Mediator.Send(new AddOrderItemCustomerCommand(userId, items), ct);
             if (result.IsSuccess)
             {
-                await Send.NoContentAsync(ct);
+                await Send.ResponseAsync(new { orderId = result.Data?[0] ?? null }, result.StatusCode, ct);
             }
             else
             {
-                await Send.ResponseAsync(new { message = result.Error, outOfStockItems = result.Data }, statusCode: result.StatusCode, ct);
+                if (result.Data != null)
+                {
+                    await Send.ResponseAsync(new { outOfStockItems = result.Data }, result.StatusCode, ct);
+                }
+                else
+                {
+                    await Send.ResponseAsync(result.Error, result.StatusCode, ct);
+                }
             }
         }
     }

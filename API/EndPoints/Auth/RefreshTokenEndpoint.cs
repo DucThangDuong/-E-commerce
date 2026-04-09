@@ -12,6 +12,7 @@ public class RefreshTokenEndpoint : EndpointWithoutRequest
     {
         Post("/refresh-token");
         AllowAnonymous();
+        Options(x => x.RequireRateLimiting("auth_strict"));
     }
 
     public override async Task HandleAsync(CancellationToken ct)
