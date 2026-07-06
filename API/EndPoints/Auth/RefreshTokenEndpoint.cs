@@ -1,3 +1,4 @@
+using API.DTOs;
 using Application.Features.Customers.Queries;
 using FastEndpoints;
 using MediatR;
@@ -7,6 +8,8 @@ namespace API.Endpoints.Auth;
 public class RefreshTokenEndpoint : EndpointWithoutRequest
 {
     public IMediator Mediator { get; set; } = null!;
+
+    public Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> Localizer { get; set; } = null!;
 
     public override void Configure()
     {
@@ -34,11 +37,22 @@ public class RefreshTokenEndpoint : EndpointWithoutRequest
                     IsEssential = true
                 });
             }
-            await Send.ResponseAsync(new { success = true, accessToken = result.Data!.AccessToken }, 200, ct);
+            var response = new ApiSuccessResponse<string>
+            {
+                Data = result.Data?.AccessToken ?? "",
+                Message = Localizer["SUCCESS_TOKEN_REFRESHED"].Value,
+            };
+            await Send.ResponseAsync(response, 200, ct);
         }
         else
         {
-            await Send.ResponseAsync(new { message = result.Errors }, result.StatusCode, ct);
+            var response = new ApiErrorResponse
+            {
+                Message = Localizer[result.ErrorCode ?? "ERR_TOKEN_REFRESH_FAILED"].Value,
+                ErrorCode = result.ErrorCode ?? "ERR_TOKEN_REFRESH_FAILED",
+                Errors = result.Errors
+            };
+            await Send.ResponseAsync(response, result.StatusCode, ct);
         }
     }
 }

@@ -5,47 +5,48 @@ namespace API.DTOs.Validators;
 
 public class UpdateCustomerNameValidator : Validator<ReqUpdateCustomerName>
 {
-    public UpdateCustomerNameValidator()
+    public UpdateCustomerNameValidator(Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> localizer)
     {
         RuleFor(x => x.Name)
-            .NotEmpty().WithMessage("Tên không được để trống")
-            .MaximumLength(100).WithMessage("Tên không được vượt quá 100 ký tự")
-            .Matches(@"^[\p{L}\p{M}\s\.\-]+$").WithMessage("Tên chỉ được chứa chữ cái, dấu chấm, gạch ngang và khoảng trắng")
-            .Must(XssProtection.IsCleanText).WithMessage("Tên chứa nội dung không hợp lệ (phát hiện mã độc)");
+            .NotEmpty().WithMessage(x => localizer["VAL_NAME_EMPTY"])
+            .MaximumLength(100).WithMessage(x => localizer["VAL_NAME_MAX"])
+            .Matches(@"^[\p{L}\p{M}\s\.\-]+$").WithMessage(x => localizer["VAL_NAME_FORMAT"])
+            .Must(XssProtection.IsCleanText).WithMessage(x => localizer["VAL_XSS_DETECTED"]);
     }
 }
 
 public class UpdateCustomerPhoneValidator : Validator<ReqUpdateCustomerPhone>
 {
-    public UpdateCustomerPhoneValidator()
+    public UpdateCustomerPhoneValidator(Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> localizer)
     {
         RuleFor(x => x.PhoneNumber)
-            .NotEmpty().WithMessage("Số điện thoại không được để trống")
-            .MaximumLength(20).WithMessage("Số điện thoại không được vượt quá 20 ký tự")
-            .Matches(@"^[\d\+\-\s]*$").WithMessage("Số điện thoại chỉ được chứa số, dấu +, - và khoảng trắng");
+            .NotEmpty().WithMessage(x => localizer["VAL_PHONE_EMPTY"])
+            .MaximumLength(20).WithMessage(x => localizer["VAL_PHONE_MAX_20"])
+            .Matches(@"^[\d\+\-\s]*$").WithMessage(x => localizer["VAL_PHONE_FORMAT_EXT"]);
     }
 }
 
 public class UpdateCustomerAddressValidator : Validator<ReqUpdateCustomerAddress>
 {
-    public UpdateCustomerAddressValidator()
+    public UpdateCustomerAddressValidator(Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> localizer)
     {
         RuleFor(x => x.Address)
-            .NotEmpty().WithMessage("Địa chỉ không được để trống")
-            .MaximumLength(500).WithMessage("Địa chỉ không được vượt quá 500 ký tự")
-            .Must(XssProtection.IsCleanText).WithMessage("Địa chỉ chứa nội dung không hợp lệ (phát hiện mã độc)");
+            .NotEmpty().WithMessage(x => localizer["VAL_ADDRESS_EMPTY"])
+            .MaximumLength(500).WithMessage(x => localizer["VAL_ADDRESS_MAX"])
+            .Must(XssProtection.IsCleanText).WithMessage(x => localizer["VAL_XSS_DETECTED"]);
     }
 }
 
 public class UpdateCustomerPasswordValidator : Validator<ReqUpdateCustomerPassword>
 {
-    public UpdateCustomerPasswordValidator()
+    public UpdateCustomerPasswordValidator(Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> localizer)
     {
         RuleFor(x => x.OldPassword)
-            .NotEmpty().WithMessage("Mật khẩu cũ không được để trống");
+            .NotEmpty().WithMessage(x => localizer["VAL_OLD_PASSWORD_EMPTY"]);
 
         RuleFor(x => x.NewPassword)
-            .NotEmpty().WithMessage("Mật khẩu mới không được để trống")
-            .MinimumLength(6).WithMessage("Mật khẩu mới phải có ít nhất 6 ký tự");
+            .NotEmpty().WithMessage(x => localizer["VAL_NEW_PASSWORD_EMPTY"])
+            .MinimumLength(6).WithMessage(x => localizer["VAL_NEW_PASSWORD_MIN_6"]);
     }
 }
+

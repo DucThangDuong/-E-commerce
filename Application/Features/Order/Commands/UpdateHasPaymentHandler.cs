@@ -36,7 +36,7 @@ namespace Application.Features.Order.Commands
                 var order = await _orderRepository.GetByIdAsync(request.OrderId);
                 if (order == null)
                 {
-                    return Result<ResIpnDTO>.Failure("Order not found", 404, new ResIpnDTO { RspCode = "01", Message = "Order not found" });
+                    return Result<ResIpnDTO>.Failure("ERR_ORDER_NOT_FOUND", 404, new ResIpnDTO { RspCode = "01", Message = "ERR_ORDER_NOT_FOUND" });
                 }
 
                 if (order.TotalAmount != request.Amount)
@@ -66,7 +66,7 @@ namespace Application.Features.Order.Commands
 
                     await _unitOfWork.SaveChangesAsync(ct);
 
-                    return Result<ResIpnDTO>.Failure("Invalid amount", 400, new ResIpnDTO { RspCode = "04", Message = "Invalid amount" });
+                    return Result<ResIpnDTO>.Failure("ERR_PAYMENT_INVALID_AMOUNT", 400, new ResIpnDTO { RspCode = "04", Message = "ERR_PAYMENT_INVALID_AMOUNT" });
                 }
 
                 if (order.Status == OrderStatus.Confirmed.ToString() || 
@@ -74,7 +74,7 @@ namespace Application.Features.Order.Commands
                     order.Status == OrderStatus.Completed.ToString() ||
                     order.Status == OrderStatus.Failed.ToString())
                 {
-                    return Result<ResIpnDTO>.Failure("Order already processed", 400, new ResIpnDTO { RspCode = "02", Message = "Order already confirmed" });
+                    return Result<ResIpnDTO>.Failure("ERR_ORDER_ALREADY_PROCESSED", 400, new ResIpnDTO { RspCode = "02", Message = "Order already confirmed" });
                 }
 
                 if (request.ResponseCode == "00")
@@ -98,12 +98,16 @@ namespace Application.Features.Order.Commands
 
                     await _notificationService.SendMessageToOrderId(
                         order.OrderId.ToString(), 
-                        $"Thanh toán thành công đơn hàng #{order.OrderId}"
+                        "PAYMENT_SUCCESS"
                     );
                 }
                 else if (request.ResponseCode == "24")
                 {
                     await _publishEndpoint.Publish(new OrderTimeoutEvent(order.OrderId), ct);
+                    await _notificationService.SendMessageToOrderId(
+                        order.OrderId.ToString(), 
+                        "PAYMENT_CANCELLED"
+                    );
                 }
                 else
                 {
@@ -111,6 +115,10 @@ namespace Application.Features.Order.Commands
                     {
                         order.Payment.PaymentStatus = PaymentStatus.Fail.ToString();
                     }
+                    await _notificationService.SendMessageToOrderId(
+                        order.OrderId.ToString(), 
+                        "PAYMENT_FAILED"
+                    );
                 }
 
                 await _unitOfWork.SaveChangesAsync(ct);
@@ -119,7 +127,7 @@ namespace Application.Features.Order.Commands
             }
             catch (Exception)
             {
-                return Result<ResIpnDTO>.Failure("An error occurred while processing the IPN", 500, new ResIpnDTO { RspCode = "99", Message = "Unknown error" });
+                return Result<ResIpnDTO>.Failure("ERR_SERVER_ERROR", 500, new ResIpnDTO { RspCode = "99", Message = "Unknown error" });
             }
         }
     }

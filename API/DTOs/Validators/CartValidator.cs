@@ -5,13 +5,14 @@ namespace API.DTOs.Validators;
 
 public class CartValidator : Validator<ReqCreateCartDto>
 {
-    public CartValidator()
+    public CartValidator(Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> localizer)
     {
 
         RuleFor(x => x.color_id)
-            .GreaterThan(0).WithMessage("product_id phải lớn hơn 0");
+            .GreaterThan(0).WithMessage(x => localizer["VAL_COLOR_ID_INVALID"]);
 
         RuleFor(x => x.quantity)
-            .GreaterThan(0).WithMessage("quantity phải lớn hơn 0");
+            .GreaterThan(0).WithMessage(x => localizer["VAL_QUANTITY_INVALID"]);
     }
 }
+

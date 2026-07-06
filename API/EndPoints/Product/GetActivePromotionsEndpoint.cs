@@ -96,9 +96,9 @@ namespace API.EndPoints.Product
 
                 await this.SendApiResponseAsync(Application.Common.Result<List<ResPromotionWithProductsDto>>.Success(promotions ?? new List<ResPromotionWithProductsDto>()), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Application.Common.Result<List<ResPromotionWithProductsDto>>.Failure($"Lỗi khi lấy danh sách khuyến mãi: {ex.Message}", 500), ct);
+                await this.SendApiResponseAsync(Application.Common.Result<List<ResPromotionWithProductsDto>>.Failure("ERR_SERVER_ERROR", 500), ct);
             }
         }
     }

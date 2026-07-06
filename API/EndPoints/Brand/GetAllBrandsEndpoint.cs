@@ -55,9 +55,9 @@ namespace API.EndPoints.Brand
 
                 await this.SendApiResponseAsync(Result<List<ResBrandDto>>.Success(cachedResult ?? new List<ResBrandDto>(), 200), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Result<List<ResBrandDto>>.Failure(ex.Message, 500), ct);
+                await this.SendApiResponseAsync(Result<List<ResBrandDto>>.Failure("ERR_SERVER_ERROR", 500), ct);
             }
         }
     }

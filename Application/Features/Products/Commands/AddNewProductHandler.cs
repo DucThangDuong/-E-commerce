@@ -36,7 +36,7 @@ namespace Application.Features.Products.Commands
                 bool hasCategory = await _categoryRepository.CategoryExistsAsync(command.CategoryId, ct);
                 if (!hasCategory)
                 {
-                    return Result.Failure("Category not found", 404);
+                    return Result.Failure("ERR_CATEGORY_NOT_FOUND", 404);
                 }
 
                 var imageUrls = new List<string>();
@@ -82,9 +82,9 @@ namespace Application.Features.Products.Commands
                 await _unitOfWork.SaveChangesAsync(ct);
                 return Result.Success(201);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result.Failure($"An error occurred while adding the product: {ex.Message}", 500);
+                return Result.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }

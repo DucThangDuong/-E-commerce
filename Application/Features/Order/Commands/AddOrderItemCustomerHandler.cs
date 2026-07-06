@@ -85,7 +85,7 @@ namespace Application.Features.Order.Commands
 
             if (outOfStockItems.Any())
             {
-                return Result<ValidateCartResponse>.Failure("Các sản phẩm không đủ tồn kho.", 400);
+                return Result<ValidateCartResponse>.Failure("ERR_STOCK_NOT_ENOUGH", 400);
             }
 
             Dictionary<int, decimal> colorPrices = await _productRepository.GetPricesByColorIdsAsync(colorIds, ct);
@@ -97,7 +97,7 @@ namespace Application.Features.Order.Commands
             {
                 if (!colorPrices.TryGetValue(item.Key, out decimal unitPrice))
                 {
-                    return Result<ValidateCartResponse>.Failure($"Sản phẩm màu ID {item.Key} không có thông tin giá hợp lệ.", 400);
+                    return Result<ValidateCartResponse>.Failure("ERR_COUPON_PRODUCT_PRICE_INVALID", 400);
                 }
 
                 decimal lineTotal = unitPrice * item.Value;

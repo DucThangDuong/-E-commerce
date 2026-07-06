@@ -5,21 +5,22 @@ namespace API.DTOs.Validators;
 
 public class CategoryValidator : Validator<ReqCreateCategoryDto>
 {
-    public CategoryValidator()
+    public CategoryValidator(Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> localizer)
     {
         RuleFor(x => x.Name)
-            .NotEmpty().WithMessage("Tên danh mục không được để trống")
-            .MaximumLength(100).WithMessage("Tên danh mục không được vượt quá 100 ký tự")
-            .Must(XssProtection.IsCleanText).WithMessage("Tên danh mục chứa nội dung không hợp lệ (phát hiện mã độc)");
+            .NotEmpty().WithMessage(x => localizer["VAL_CATEGORY_NAME_EMPTY"])
+            .MaximumLength(100).WithMessage(x => localizer["VAL_CATEGORY_NAME_MAX"])
+            .Must(XssProtection.IsCleanText).WithMessage(x => localizer["VAL_XSS_DETECTED"]);
 
         RuleFor(x => x.Description)
-            .MaximumLength(500).WithMessage("Mô tả không được vượt quá 500 ký tự")
-            .Must(XssProtection.IsCleanDescription).WithMessage("Mô tả chứa nội dung không hợp lệ (phát hiện mã độc)")
+            .MaximumLength(500).WithMessage(x => localizer["VAL_CATEGORY_DESC_MAX"])
+            .Must(XssProtection.IsCleanDescription).WithMessage(x => localizer["VAL_XSS_DETECTED"])
             .When(x => !string.IsNullOrEmpty(x.Description));
 
         RuleFor(x => x.Picture)
-            .MaximumLength(2048).WithMessage("URL hình ảnh không được vượt quá 2048 ký tự")
-            .Must(XssProtection.IsCleanUrl).WithMessage("URL hình ảnh không hợp lệ (chỉ chấp nhận http/https)")
+            .MaximumLength(2048).WithMessage(x => localizer["VAL_CATEGORY_PICTURE_MAX"])
+            .Must(XssProtection.IsCleanUrl).WithMessage(x => localizer["VAL_URL_INVALID"])
             .When(x => !string.IsNullOrEmpty(x.Picture));
     }
 }
+

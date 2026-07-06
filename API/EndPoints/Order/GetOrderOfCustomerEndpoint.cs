@@ -76,10 +76,11 @@ namespace API.EndPoints.Order
                 }
                 await this.SendApiResponseAsync(Result<List<ResOrder>>.Success(orders), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Result<List<ResOrder>>.Failure("An internal error occurred while fetching orders.", 500), ct);
+                await this.SendApiResponseAsync(Result<List<ResOrder>>.Failure("ERR_SERVER_ERROR", 500), ct);
             }
         }
     }
 }
+

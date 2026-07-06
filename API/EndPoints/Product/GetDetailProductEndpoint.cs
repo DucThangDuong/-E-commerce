@@ -92,7 +92,7 @@ namespace API.EndPoints.Product
 
                 if (product == null)
                 {
-                    await this.SendApiResponseAsync(Application.Common.Result<ResProductDto>.Failure("Product not found", 404), ct);
+                    await this.SendApiResponseAsync(Application.Common.Result<ResProductDto>.Failure("ERR_PRODUCT_NOT_FOUND", 404), ct);
                     return;
                 }
 
@@ -118,9 +118,9 @@ namespace API.EndPoints.Product
 
                 await this.SendApiResponseAsync(Application.Common.Result<ResProductDto>.Success(product, 200), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Application.Common.Result<ResProductDto>.Failure($"Lỗi khi lấy chi tiết sản phẩm: {ex.Message}", 500), ct);
+                await this.SendApiResponseAsync(Application.Common.Result<ResProductDto>.Failure("ERR_SERVER_ERROR", 500), ct);
             }
         }
     }

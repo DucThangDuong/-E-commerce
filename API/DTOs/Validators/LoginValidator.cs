@@ -5,25 +5,26 @@ namespace API.DTOs.Validators;
 
 public class LoginValidator : Validator<ReqLoginDTo>
 {
-    public LoginValidator()
+    public LoginValidator(Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> localizer)
     {
         RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("Email không được để trống")
-            .EmailAddress().WithMessage("Email không đúng định dạng")
-            .MaximumLength(255).WithMessage("Email không được vượt quá 255 ký tự");
+            .NotEmpty().WithMessage(x => localizer["VAL_EMAIL_EMPTY"])
+            .EmailAddress().WithMessage(x => localizer["VAL_EMAIL_INVALID"])
+            .MaximumLength(255).WithMessage(x => localizer["VAL_EMAIL_MAX"]);
 
         RuleFor(x => x.Password)
-            .NotEmpty().WithMessage("Mật khẩu không được để trống")
-            .MaximumLength(100).WithMessage("Mật khẩu không được vượt quá 100 ký tự");
+            .NotEmpty().WithMessage(x => localizer["VAL_PASSWORD_EMPTY"])
+            .MaximumLength(100).WithMessage(x => localizer["VAL_PASSWORD_MAX"]);
     }
 }
 public class LoginGoogle : Validator<ReqGoogleLoginDTO>
 {
-    public LoginGoogle()
+    public LoginGoogle(Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> localizer)
     {
         RuleFor(x => x.IdToken)
-            .NotEmpty().WithMessage("Yêu Cầu TokenID")
-            .MaximumLength(4096).WithMessage("TokenID vượt quá độ dài cho phép")
-            .Must(XssProtection.IsCleanText).WithMessage("TokenID chứa nội dung không hợp lệ");
+            .NotEmpty().WithMessage(x => localizer["VAL_IDTOKEN_EMPTY"])
+            .MaximumLength(4096).WithMessage(x => localizer["VAL_IDTOKEN_MAX"])
+            .Must(XssProtection.IsCleanText).WithMessage(x => localizer["VAL_IDTOKEN_XSS"]);
     }
 }
+

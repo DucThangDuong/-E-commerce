@@ -35,7 +35,7 @@ namespace API.EndPoints.Customer
 
             if (customerDb == null)
             {
-                await this.SendApiResponseAsync(Result<ResCustomerPrivateDto>.Failure("Not found", 404), ct);
+                await this.SendApiResponseAsync(Result<ResCustomerPrivateDto>.Failure("ERR_CUSTOMER_NOT_FOUND", 404), ct);
                 return;
             }
 

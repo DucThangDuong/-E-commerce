@@ -10,6 +10,8 @@ public class LoginEndpoint : Endpoint<ReqLoginDTo>
 {
     public IMediator Mediator { get; set; } = null!;
 
+    public Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> Localizer { get; set; } = null!;
+
     public override void Configure()
     {
         Post("/login");
@@ -36,7 +38,7 @@ public class LoginEndpoint : Endpoint<ReqLoginDTo>
             var response = new ApiSuccessResponse<string>
             {
                 Data = result.Data?.AccessToken ?? "",
-                Message = "Login successful",
+                Message = Localizer["SUCCESS_LOGIN"].Value,
             };
             await Send.ResponseAsync(response, result.StatusCode, ct);
         }
@@ -44,8 +46,8 @@ public class LoginEndpoint : Endpoint<ReqLoginDTo>
         {
             var response = new ApiErrorResponse
             {
-                Message = "Login failed",
-                ErrorCode = "lOGIN_FAIL",
+                Message = Localizer[result.ErrorCode ?? "ERR_LOGIN_FAILED"].Value,
+                ErrorCode = result.ErrorCode ?? "ERR_LOGIN_FAILED",
                 Errors = result.Errors
             };
             await Send.ResponseAsync(response, result.StatusCode, ct);

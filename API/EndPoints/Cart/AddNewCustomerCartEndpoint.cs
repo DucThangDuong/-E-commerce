@@ -23,7 +23,7 @@ namespace API.EndPoints.Cart
             int userId = HttpContext.User.GetUserId();
             if (userId == 0 || req.color_id == 0 || req.quantity == 0)
             {
-                await Send.ResponseAsync(new { message = "customer_id, product_id and quantity must be provided and greater than 0" }, statusCode: 400, ct);
+                await this.SendApiResponseAsync(Application.Common.Result.Failure("ERR_INVALID_CART_REQUEST", 400), ct);
                 return;
             }
             var result = await Mediator.Send(new AddItemCartCustomerCommand(userId, req.color_id, req.quantity), ct);

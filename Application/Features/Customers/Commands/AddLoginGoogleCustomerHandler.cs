@@ -47,7 +47,7 @@ namespace Application.Features.Customers.Commands
             }
             else
             {
-                return Result<LoginResponse>.Failure(result?.ErrorMessage ?? "Lỗi khi đăng nhập bằng Google");
+                return Result<LoginResponse>.Failure("ERR_AUTH_GOOGLE_FAILED");
             }
         }
     }

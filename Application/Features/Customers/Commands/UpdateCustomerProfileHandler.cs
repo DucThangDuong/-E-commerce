@@ -19,7 +19,7 @@ namespace Application.Features.Customers.Commands
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(command.Name)) return Result.Failure("Tên không được để trống", 400);
+                if (string.IsNullOrWhiteSpace(command.Name)) return Result.Failure("ERR_PROFILE_NAME_EMPTY", 400);
 
                 int rowsAffected = await _customerRepository.UpdateCustomerProfileAsync(
                     command.CustomerId, 
@@ -28,12 +28,12 @@ namespace Application.Features.Customers.Commands
                     null, 
                     ct);
 
-                if (rowsAffected == 0) return Result.Failure("Không tìm thấy người dùng", 404);
+                if (rowsAffected == 0) return Result.Failure("ERR_USER_NOT_FOUND", 404);
                 return Result.Success();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result.Failure("Lỗi server: " + ex.Message, 500);
+                return Result.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }
@@ -55,7 +55,7 @@ namespace Application.Features.Customers.Commands
             {
                 // Basic validation
                 if (string.IsNullOrWhiteSpace(command.PhoneNumber) || command.PhoneNumber.Length < 10) 
-                    return Result.Failure("Số điện thoại không hợp lệ", 400);
+                    return Result.Failure("ERR_PROFILE_PHONE_INVALID", 400);
 
                 int rowsAffected = await _customerRepository.UpdateCustomerProfileAsync(
                     command.CustomerId, 
@@ -64,12 +64,12 @@ namespace Application.Features.Customers.Commands
                     null, 
                     ct);
 
-                if (rowsAffected == 0) return Result.Failure("Không tìm thấy người dùng", 404);
+                if (rowsAffected == 0) return Result.Failure("ERR_USER_NOT_FOUND", 404);
                 return Result.Success();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result.Failure("Lỗi server: " + ex.Message, 500);
+                return Result.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }
@@ -90,7 +90,7 @@ namespace Application.Features.Customers.Commands
             try
             {
                 if (string.IsNullOrWhiteSpace(command.Address)) 
-                    return Result.Failure("Địa chỉ không được để trống", 400);
+                    return Result.Failure("ERR_PROFILE_ADDRESS_EMPTY", 400);
 
                 int rowsAffected = await _customerRepository.UpdateCustomerProfileAsync(
                     command.CustomerId, 
@@ -99,12 +99,12 @@ namespace Application.Features.Customers.Commands
                     command.Address, 
                     ct);
 
-                if (rowsAffected == 0) return Result.Failure("Không tìm thấy người dùng", 404);
+                if (rowsAffected == 0) return Result.Failure("ERR_USER_NOT_FOUND", 404);
                 return Result.Success();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result.Failure("Lỗi server: " + ex.Message, 500);
+                return Result.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }
@@ -127,22 +127,22 @@ namespace Application.Features.Customers.Commands
             try
             {
                 if (string.IsNullOrWhiteSpace(command.NewPassword) || command.NewPassword.Length < 6)
-                    return Result.Failure("Mật khẩu mới phải có ít nhất 6 ký tự", 400);
+                    return Result.Failure("ERR_PROFILE_PASSWORD_MIN_LENGTH", 400);
 
                 var customer = await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync(_db.Customers, c => c.CustomerId == command.CustomerId, ct);
                 
                 if (customer == null) 
-                    return Result.Failure("Không tìm thấy người dùng", 404);
+                    return Result.Failure("ERR_USER_NOT_FOUND", 404);
 
                 if (string.IsNullOrEmpty(customer.PasswordHash))
                 {
-                    return Result.Failure("Tài khoản chưa được thiết lập mật khẩu (có thể do đăng nhập bằng Google). Vui lòng thiết lập ở mục khác.", 400);
+                    return Result.Failure("ERR_PROFILE_NO_PASSWORD_SET", 400);
                 }
 
                 bool isOldPasswordValid = BCrypt.Net.BCrypt.Verify(command.OldPassword, customer.PasswordHash);
                 if (!isOldPasswordValid)
                 {
-                    return Result.Failure("Mật khẩu cũ không chính xác", 400);
+                    return Result.Failure("ERR_PROFILE_OLD_PASSWORD_INCORRECT", 400);
                 }
 
                 string newHash = BCrypt.Net.BCrypt.HashPassword(command.NewPassword);
@@ -150,9 +150,9 @@ namespace Application.Features.Customers.Commands
                 
                 return Result.Success();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result.Failure("Lỗi server: " + ex.Message, 500);
+                return Result.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }

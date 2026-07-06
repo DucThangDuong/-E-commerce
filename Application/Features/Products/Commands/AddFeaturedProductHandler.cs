@@ -29,7 +29,7 @@ namespace Application.Features.Products.Commands
                 var product = await _productRepository.ProductExistsAsync(command.ProductId, ct);
                 if (product == false)
                 {
-                    return Result.Failure("Product not found.", 404);
+                    return Result.Failure("ERR_PRODUCT_NOT_FOUND", 404);
                 }
 
                 FeaturedProduct featuredProduct = new FeaturedProduct
@@ -45,9 +45,9 @@ namespace Application.Features.Products.Commands
                 await _unitOfWork.SaveChangesAsync(ct);
                 return Result.Success(201);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result.Failure($"An error occurred while adding the featured product: {ex.Message}", 500);
+                return Result.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }

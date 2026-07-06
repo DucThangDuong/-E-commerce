@@ -82,16 +82,17 @@ namespace API.EndPoints.Order
 
                 if (order == null)
                 {
-                    await this.SendApiResponseAsync(Result<ResOrder>.Failure("Order not found or you don't have access to it.", 404), ct);
+                    await this.SendApiResponseAsync(Result<ResOrder>.Failure("ERR_ORDER_NOT_FOUND", 404), ct);
                     return;
                 }
 
                 await this.SendApiResponseAsync(Result<ResOrder>.Success(order), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Result<ResOrder>.Failure("An internal error occurred while fetching the order detail.", 500), ct);
+                await this.SendApiResponseAsync(Result<ResOrder>.Failure("ERR_SERVER_ERROR", 500), ct);
             }
         }
     }
 }
+

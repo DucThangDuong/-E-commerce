@@ -148,9 +148,9 @@ namespace API.EndPoints.Product
 
                 await this.SendApiResponseAsync(Application.Common.Result<ResPagedProductDto>.Success(result), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Application.Common.Result<ResPagedProductDto>.Failure(ex.Message, 400), ct);
+                await this.SendApiResponseAsync(Application.Common.Result<ResPagedProductDto>.Failure("ERR_SERVER_ERROR", 400), ct);
             }
         }
     }

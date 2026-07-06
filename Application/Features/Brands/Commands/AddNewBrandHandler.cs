@@ -27,7 +27,7 @@ namespace Application.Features.Brands.Commands
             }
             else
             {
-                return Result.Failure("Failed to add new brand", 500);
+                return Result.Failure("ERR_BRAND_CREATE_FAILED", 500);
             }
         }
     }

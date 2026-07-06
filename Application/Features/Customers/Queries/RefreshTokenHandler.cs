@@ -27,20 +27,20 @@ namespace Application.Features.Customers.Queries
 
                 if (string.IsNullOrEmpty(command.RefreshToken) || string.IsNullOrEmpty(command.AccessToken))
                 {
-                    return Result<LoginResponse>.Failure("Không tìm thấy Token.", 400);
+                    return Result<LoginResponse>.Failure("ERR_TOKEN_NOT_FOUND", 400);
                 }
                 var principal = _jwtTokenService.GetPrincipalFromExpiredToken(command.AccessToken);
                 string? userIdString = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userIdString))
                 {   
-                    return Result<LoginResponse>.Failure("Token không hợp lệ.", 401);
+                    return Result<LoginResponse>.Failure("ERR_TOKEN_INVALID", 401);
                 }
                 int userId = int.Parse(userIdString);
                 string redisKey = $"RefreshToken:{userId}";
                 string? refreshToken = await _redisConnection.StringGetAsync(redisKey);
                 if (string.IsNullOrEmpty(refreshToken) || refreshToken != command.RefreshToken)
                 {
-                    return Result<LoginResponse>.Failure("Token không hợp lệ.", 401);
+                    return Result<LoginResponse>.Failure("ERR_TOKEN_INVALID", 401);
                 }
 
                 var newAccessToken = _jwtTokenService.GenerateAccessToken(userId, Domain.Enums.UserRole.User.ToString());
@@ -56,7 +56,7 @@ namespace Application.Features.Customers.Queries
             }
             catch
             {
-                return Result<LoginResponse>.Failure("Loi server", 500);
+                return Result<LoginResponse>.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }

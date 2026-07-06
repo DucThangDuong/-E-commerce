@@ -98,10 +98,11 @@ namespace API.EndPoints.Purchase
 
                 await this.SendApiResponseAsync(Result<PagedResponse<ResOrderSummary>>.Success(pagedResponse), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Result<PagedResponse<ResOrderSummary>>.Failure("An internal error occurred while fetching orders.", 500), ct);
+                await this.SendApiResponseAsync(Result<PagedResponse<ResOrderSummary>>.Failure("ERR_SERVER_ERROR", 500), ct);
             }
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using Application.Common;
+using Application.Common;
 using MediatR;
 using StackExchange.Redis;
 
@@ -27,7 +27,7 @@ namespace Application.Features.Customers.Commands
             }
             catch (Exception ex)
             {
-                return Result.Failure("Lỗi server: " + ex.Message, 500);
+                return Result.Failure("L?i server: " + ex.Message, 500);
             }
         }
     }

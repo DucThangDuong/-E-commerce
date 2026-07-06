@@ -61,7 +61,7 @@ namespace Application.Features.Order.Commands
                 {
                     if (cachedResponse == "PROCESSING")
                     {
-                        return Result<CreatePaymentResponse>.Failure("Giao dịch đang được xử lý. Vui lòng không gửi lại.", 409);
+                        return Result<CreatePaymentResponse>.Failure("ERR_PAYMENT_PROCESSING", 409);
                     }
                     var cached = JsonSerializer.Deserialize<CreatePaymentResponse>(cachedResponse!);
                     return Result<CreatePaymentResponse>.Success(cached!, 200);
@@ -70,7 +70,7 @@ namespace Application.Features.Order.Commands
                 bool lockAcquired = await _redisConnection.StringSetAsync(idempotencyKey, "PROCESSING", TimeSpan.FromMinutes(15), When.NotExists);
                 if (!lockAcquired)
                 {
-                    return Result<CreatePaymentResponse>.Failure("Giao dịch đang được xử lý.", 409);
+                    return Result<CreatePaymentResponse>.Failure("ERR_PAYMENT_PROCESSING", 409);
                 }
             }
             // kiểm tra tồn kho
@@ -115,7 +115,7 @@ namespace Application.Features.Order.Commands
                             await _redisConnection.StringIncrementAsync($"Color:Stock:{success.Key}", success.Value);
                         }
 
-                        return Result<CreatePaymentResponse>.Failure("Sản phẩm đã hết hàng do có người khác vừa mua.", 400);
+                        return Result<CreatePaymentResponse>.Failure("ERR_STOCK_NOT_ENOUGH", 400);
                     }
 
                     successItems.Add(item.Key, item.Value);
@@ -128,7 +128,7 @@ namespace Application.Features.Order.Commands
                     {
                         await _redisConnection.StringIncrementAsync($"Color:Stock:{success.Key}", success.Value);
                     }
-                    return Result<CreatePaymentResponse>.Failure(calculateResult.ErrorCode ?? "Lỗi tính toán đơn hàng.", 400);
+                    return Result<CreatePaymentResponse>.Failure(calculateResult.ErrorCode ?? "ERR_ORDER_CALCULATION_FAILED", 400);
                 }
 
                 var priceInfo = calculateResult.Data!;
@@ -148,7 +148,7 @@ namespace Application.Features.Order.Commands
                             await _redisConnection.StringIncrementAsync($"Color:Stock:{success.Key}", success.Value);
                         }
                         await _unitOfWork.InventoryRepository.ReleaseVehiclesAsync(reservedVehicles.Select(v => v.VehicleId).ToList(), ct);
-                        return Result<CreatePaymentResponse>.Failure($"Sản phẩm màu ID {vehicle.ColorId} không có thông tin giá hợp lệ.", 400);
+                        return Result<CreatePaymentResponse>.Failure("ERR_COUPON_PRODUCT_PRICE_INVALID", 400);
                     }
 
                     orderItems.Add(new OrderItem
@@ -192,51 +192,53 @@ namespace Application.Features.Order.Commands
                 };
                 newOrder.Payment = newPayment;
 
-                await _unitOfWork.OrderRepository.AddAsync(newOrder);
-                await _unitOfWork.SaveChangesAsync(ct);
-
                 if (priceInfo.CouponId.HasValue)
                 {
                     var couponUsage = new CouponUsage
                     {
                         CouponId = priceInfo.CouponId.Value,
                         CustomerId = customerId,
-                        OrderId = newOrder.OrderId,
+                        Order = newOrder, 
                         UsedAt = DateTime.UtcNow
                     };
+                    newOrder.CouponUsages.Add(couponUsage);
+
                     var coupon = await _db.Coupons.FirstOrDefaultAsync(c => c.CouponId == priceInfo.CouponId.Value, ct);
                     if (coupon != null)
                     {
                         coupon.UsedCount = (coupon.UsedCount ?? 0) + 1;
                     }
-                    await _unitOfWork.SaveChangesAsync(ct);
                 }
+                if (request.TypePayment == 0) // COD
+                {
+                    await _unitOfWork.CartRepository.DeleteCartItemsAsync(customerId, colorIds);
+                }
+                await _unitOfWork.OrderRepository.AddAsync(newOrder);
+                await _unitOfWork.SaveChangesAsync(ct);
+
                 if (request.TypePayment == 0) // COD
                 {
                     var response = new CreatePaymentResponse
                     {
                         OrderId = newOrder.OrderId,
-                        Message = "Đặt hàng thành công (COD)."
+                        Message = "SUCCESS_ORDER_COD"
                     };
-                    await _unitOfWork.CartRepository.DeleteCartItemsAsync(customerId, colorIds);
                     return Result<CreatePaymentResponse>.Success(response, 201);
                 }
                 else // VnPay
                 {
                     var paymentUrl = _vnPayService.CreatePaymentUrl(newOrder.OrderId, priceInfo.FinalAmount, request.IpAddress);
-
                     await _publishEndpoint.Publish(new OrderTimeoutEvent(newOrder.OrderId), context =>
                     {
                         context.Delay = TimeSpan.FromMinutes(5);
                     }, ct);
-                    
                     await _unitOfWork.SaveChangesAsync(ct);
 
                     var response = new CreatePaymentResponse
                     {
                         OrderId = newOrder.OrderId,
                         PaymentUrl = paymentUrl,
-                        Message = "Vui lòng thanh toán trong 5 phút."
+                        Message = "SUCCESS_ORDER_VNPAY"
                     };
                     await _redisConnection.StringSetAsync(idempotencyKey,
                         JsonSerializer.Serialize(response), TimeSpan.FromHours(24));
@@ -253,7 +255,7 @@ namespace Application.Features.Order.Commands
                 {
                     await _redisConnection.KeyDeleteAsync(idempotencyKey);
                 }
-                return Result<CreatePaymentResponse>.Failure("Đã xảy ra lỗi khi xử lý thanh toán.", 500);
+                return Result<CreatePaymentResponse>.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }

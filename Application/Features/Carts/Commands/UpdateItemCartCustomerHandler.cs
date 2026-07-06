@@ -33,7 +33,7 @@ namespace Application.Features.Carts.Commands
                 var existingCart = await _cartRepository.GetCartByIdAsync(command.CartId, command.CustomerId);
                 if (existingCart == null)
                 {
-                    return Result<ResCartDto>.Failure("Cart item not found.", 404);
+                    return Result<ResCartDto>.Failure("ERR_CART_ITEM_NOT_FOUND", 404);
                 }
 
                 if (command.Quantity <= 0)
@@ -48,12 +48,12 @@ namespace Application.Features.Carts.Commands
 
                 if (stockQuantity == null)
                 {
-                    return Result<ResCartDto>.Failure("Variant not found.", 404);
+                    return Result<ResCartDto>.Failure("ERR_VARIANT_NOT_FOUND", 404);
                 }
 
                 if (command.Quantity > stockQuantity.Value)
                 {
-                    return Result<ResCartDto>.Failure($"Not enough stock available. Maximum is {stockQuantity.Value}.", 400);
+                    return Result<ResCartDto>.Failure("ERR_STOCK_NOT_ENOUGH", 400);
                 }
 
                 existingCart.Quantity = command.Quantity;
@@ -83,7 +83,7 @@ namespace Application.Features.Carts.Commands
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating cart. CustomerId: {CustomerId}, CartId: {CartId}", command.CustomerId, command.CartId);
-                return Result<ResCartDto>.Failure("An internal error occurred while processing your request.", 500);
+                return Result<ResCartDto>.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }

@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ERR_INTERNAL_SERVER" xml:space="preserve">
+    <value>An unexpected error occurred. Please try again later.</value>
+  </data>
+  <data name="SUCCESS_PAYMENT" xml:space="preserve">
+    <value>Payment successful!</value>
+  </data>
+  <data name="VAL_BRAND_NAME_EMPTY" xml:space="preserve">
+    <value>Brand name cannot be empty.</value>
+  </data>
+  <data name="VAL_BRAND_NAME_MAX" xml:space="preserve">
+    <value>Brand name cannot exceed 100 characters.</value>
+  </data>
+  <data name="VAL_BRAND_DESC_MAX" xml:space="preserve">
+    <value>Description cannot exceed 500 characters.</value>
+  </data>
+  <data name="VAL_BRAND_LOGO_MAX" xml:space="preserve">
+    <value>Logo URL cannot exceed 2048 characters.</value>
+  </data>
+  <data name="VAL_XSS_DETECTED" xml:space="preserve">
+    <value>Contains invalid content (malicious code detected).</value>
+  </data>
+  <data name="VAL_URL_INVALID" xml:space="preserve">
+    <value>Invalid URL (only http/https are accepted).</value>
+  </data>
+  <data name="SUCCESS_BRAND_CREATED" xml:space="preserve">
+    <value>Brand created successfully!</value>
+  </data>
+  <data name="VAL_COLOR_ID_INVALID" xml:space="preserve">
+    <value>Color ID must be greater than 0.</value>
+  </data>
+  <data name="VAL_QUANTITY_INVALID" xml:space="preserve">
+    <value>Quantity must be greater than 0.</value>
+  </data>
+  <data name="VAL_CATEGORY_NAME_EMPTY" xml:space="preserve">
+    <value>Category name cannot be empty.</value>
+  </data>
+  <data name="VAL_CATEGORY_NAME_MAX" xml:space="preserve">
+    <value>Category name cannot exceed 100 characters.</value>
+  </data>
+  <data name="VAL_CATEGORY_DESC_MAX" xml:space="preserve">
+    <value>Description cannot exceed 500 characters.</value>
+  </data>
+  <data name="VAL_CATEGORY_PICTURE_MAX" xml:space="preserve">
+    <value>Picture URL cannot exceed 2048 characters.</value>
+  </data>
+  <data name="VAL_EMAIL_EMPTY" xml:space="preserve"><value>Email cannot be empty.</value></data>
+  <data name="VAL_EMAIL_INVALID" xml:space="preserve"><value>Invalid email format.</value></data>
+  <data name="VAL_EMAIL_MAX" xml:space="preserve"><value>Email cannot exceed 255 characters.</value></data>
+  <data name="VAL_PASSWORD_EMPTY" xml:space="preserve"><value>Password cannot be empty.</value></data>
+  <data name="VAL_PASSWORD_MAX" xml:space="preserve"><value>Password cannot exceed 100 characters.</value></data>
+  <data name="VAL_IDTOKEN_EMPTY" xml:space="preserve"><value>TokenID is required.</value></data>
+  <data name="VAL_IDTOKEN_MAX" xml:space="preserve"><value>TokenID length exceeded.</value></data>
+  <data name="VAL_IDTOKEN_XSS" xml:space="preserve"><value>TokenID contains invalid content.</value></data>
+  <data name="VAL_ITEMS_EMPTY" xml:space="preserve"><value>Product list cannot be empty.</value></data>
+  <data name="VAL_FULLNAME_EMPTY" xml:space="preserve"><value>Full name cannot be empty.</value></data>
+  <data name="VAL_FULLNAME_MAX" xml:space="preserve"><value>Full name cannot exceed 100 characters.</value></data>
+  <data name="VAL_FULLNAME_FORMAT" xml:space="preserve"><value>Full name can only contain letters, dots, hyphens and spaces.</value></data>
+  <data name="VAL_ADDRESS_EMPTY" xml:space="preserve"><value>Address cannot be empty.</value></data>
+  <data name="VAL_ADDRESS_MAX" xml:space="preserve"><value>Address cannot exceed 500 characters.</value></data>
+  <data name="VAL_PHONE_EMPTY" xml:space="preserve"><value>Phone number cannot be empty.</value></data>
+  <data name="VAL_PHONE_MIN" xml:space="preserve"><value>Phone number cannot be less than 10 characters.</value></data>
+  <data name="VAL_PHONE_MAX" xml:space="preserve"><value>Phone number cannot exceed 10 characters.</value></data>
+  <data name="VAL_PHONE_FORMAT" xml:space="preserve"><value>Phone number can only contain digits.</value></data>
+  <data name="VAL_PAYMENT_TYPE_INVALID" xml:space="preserve"><value>Payment type must be 0 or 1.</value></data>
+  <data name="VAL_ITEMS_NULL" xml:space="preserve"><value>Product list cannot be null.</value></data>
+  <data name="VAL_ITEMS_MIN" xml:space="preserve"><value>Product list must have at least 1 product.</value></data>
+  <data name="VAL_CATEGORY_ID_INVALID" xml:space="preserve"><value>Category ID must be greater than 0.</value></data>
+  <data name="VAL_BRAND_ID_INVALID" xml:space="preserve"><value>Brand ID must be greater than 0.</value></data>
+  <data name="VAL_PRODUCT_NAME_EMPTY" xml:space="preserve"><value>Product name cannot be empty.</value></data>
+  <data name="VAL_PRODUCT_NAME_MAX" xml:space="preserve"><value>Product name cannot exceed 255 characters.</value></data>
+  <data name="VAL_PRODUCT_DESC_MAX" xml:space="preserve"><value>Description cannot exceed 5000 characters.</value></data>
+  <data name="VAL_BASE_PRICE_INVALID" xml:space="preserve"><value>Product price must be greater than 0.</value></data>
+  <data name="VAL_STOCK_INVALID" xml:space="preserve"><value>Stock quantity must be greater than 0.</value></data>
+  <data name="VAL_PASSWORD_MIN" xml:space="preserve"><value>Password must be at least 8 characters long.</value></data>
+  <data name="VAL_PASSWORD_MAX_64" xml:space="preserve"><value>Password cannot exceed 64 characters.</value></data>
+  <data name="VAL_PASSWORD_UPPERCASE" xml:space="preserve"><value>Password must contain at least 1 uppercase letter.</value></data>
+  <data name="VAL_PASSWORD_LOWERCASE" xml:space="preserve"><value>Password must contain at least 1 lowercase letter.</value></data>
+  <data name="VAL_PASSWORD_DIGIT" xml:space="preserve"><value>Password must contain at least 1 digit.</value></data>
+  <data name="VAL_PASSWORD_SPECIAL" xml:space="preserve"><value>Password must contain at least 1 special character (e.g., @, #, $).</value></data>
+  <data name="VAL_AVATAR_NULL" xml:space="preserve"><value>Please attach an avatar file.</value></data>
+  <data name="VAL_AVATAR_SIZE" xml:space="preserve"><value>File size is too large. Please select an image under 5MB.</value></data>
+  <data name="VAL_AVATAR_FORMAT" xml:space="preserve"><value>Only JPG or PNG formats are accepted.</value></data>
+  <data name="VAL_NAME_EMPTY" xml:space="preserve"><value>Name cannot be empty.</value></data>
+  <data name="VAL_NAME_MAX" xml:space="preserve"><value>Name cannot exceed 100 characters.</value></data>
+  <data name="VAL_NAME_FORMAT" xml:space="preserve"><value>Name can only contain letters, dots, hyphens and spaces.</value></data>
+  <data name="VAL_PHONE_MAX_20" xml:space="preserve"><value>Phone number cannot exceed 20 characters.</value></data>
+  <data name="VAL_PHONE_FORMAT_EXT" xml:space="preserve"><value>Phone number can only contain digits, +, - and spaces.</value></data>
+  <data name="VAL_OLD_PASSWORD_EMPTY" xml:space="preserve"><value>Old password cannot be empty.</value></data>
+  <data name="VAL_NEW_PASSWORD_EMPTY" xml:space="preserve"><value>New password cannot be empty.</value></data>
+  <data name="VAL_NEW_PASSWORD_MIN_6" xml:space="preserve"><value>New password must be at least 6 characters long.</value></data>
+  <data name="ERR_VALIDATION_FAILED" xml:space="preserve"><value>Invalid input data.</value></data>
+  <data name="ERR_AUTH_CREDENTIALS_EMPTY" xml:space="preserve"><value>Email and password cannot be empty.</value></data>
+  <data name="ERR_AUTH_EMAIL_EXISTS" xml:space="preserve"><value>Email already exists in the system.</value></data>
+  <data name="ERR_SERVER_ERROR" xml:space="preserve"><value>A system error occurred. Please try again later.</value></data>
+  <data name="ERR_AUTH_CREDENTIALS_INVALID" xml:space="preserve"><value>Invalid email or password.</value></data>
+  <data name="ERR_AUTH_GOOGLE_FAILED" xml:space="preserve"><value>Google login failed.</value></data>
+  <data name="ERR_TOKEN_NOT_FOUND" xml:space="preserve"><value>Token not found.</value></data>
+  <data name="ERR_TOKEN_INVALID" xml:space="preserve"><value>Token is invalid or expired.</value></data>
+  <data name="SUCCESS_LOGIN" xml:space="preserve"><value>Login successful.</value></data>
+  <data name="SUCCESS_TOKEN_REFRESHED" xml:space="preserve"><value>Token refreshed successfully.</value></data>
+  <data name="ERR_UNKNOWN" xml:space="preserve"><value>An unknown error occurred.</value></data>
+  <data name="ERR_LOGIN_FAILED" xml:space="preserve"><value>Login failed.</value></data>
+  <data name="ERR_TOKEN_REFRESH_FAILED" xml:space="preserve"><value>Token refresh failed.</value></data>
+  <data name="SUCCESS_OPERATION" xml:space="preserve"><value>Operation successful.</value></data>
+  <data name="ERR_BRAND_CREATE_FAILED" xml:space="preserve"><value>Failed to add new brand.</value></data>
+  <data name="ERR_CATEGORY_CREATE_FAILED" xml:space="preserve"><value>Failed to add new category.</value></data>
+  <data name="ERR_VARIANT_NOT_FOUND" xml:space="preserve"><value>Product variant not found.</value></data>
+  <data name="ERR_STOCK_NOT_ENOUGH" xml:space="preserve"><value>Not enough stock available.</value></data>
+  <data name="ERR_CART_DELETE_FAILED" xml:space="preserve"><value>Failed to delete cart item.</value></data>
+  <data name="ERR_CART_ITEM_NOT_FOUND" xml:space="preserve"><value>Cart item not found.</value></data>
+  <data name="ERR_INVALID_CART_REQUEST" xml:space="preserve"><value>Invalid cart request parameters.</value></data>
+  <data name="ERR_COUPON_EMPTY" xml:space="preserve"><value>Coupon code cannot be empty.</value></data>
+  <data name="ERR_COUPON_PRODUCT_PRICE_INVALID" xml:space="preserve"><value>Product variant does not have valid price info.</value></data>
+  <data name="ERR_COUPON_NOT_FOUND" xml:space="preserve"><value>Coupon does not exist or has been disabled.</value></data>
+  <data name="ERR_COUPON_EXPIRED" xml:space="preserve"><value>Coupon has expired.</value></data>
+  <data name="ERR_COUPON_USAGE_LIMIT_REACHED" xml:space="preserve"><value>Coupon usage limit reached.</value></data>
+  <data name="ERR_COUPON_CUSTOMER_USAGE_LIMIT_REACHED" xml:space="preserve"><value>You have reached the usage limit for this coupon.</value></data>
+  <data name="ERR_COUPON_MIN_ORDER_VALUE" xml:space="preserve"><value>Order does not meet minimum value for this coupon.</value></data>
+  <data name="ERR_PROFILE_NAME_EMPTY" xml:space="preserve"><value>Name cannot be empty.</value></data>
+  <data name="ERR_USER_NOT_FOUND" xml:space="preserve"><value>User not found.</value></data>
+  <data name="ERR_PROFILE_PHONE_INVALID" xml:space="preserve"><value>Invalid phone number.</value></data>
+  <data name="ERR_PROFILE_ADDRESS_EMPTY" xml:space="preserve"><value>Address cannot be empty.</value></data>
+  <data name="ERR_PROFILE_PASSWORD_MIN_LENGTH" xml:space="preserve"><value>New password must be at least 6 characters.</value></data>
+  <data name="ERR_PROFILE_NO_PASSWORD_SET" xml:space="preserve"><value>Account does not have a password set (possibly due to Google login).</value></data>
+  <data name="ERR_PROFILE_OLD_PASSWORD_INCORRECT" xml:space="preserve"><value>Old password is incorrect.</value></data>
+  <data name="ERR_AVATAR_UPDATE_FAILED" xml:space="preserve"><value>Failed to update avatar.</value></data>
+  <data name="ERR_MISSING_IDEMPOTENCY_KEY" xml:space="preserve"><value>Missing Idempotency-Key header.</value></data>
+  <data name="ERR_CUSTOMER_NOT_FOUND" xml:space="preserve"><value>Customer profile not found.</value></data>
+  <data name="ERR_PRODUCT_NOT_FOUND" xml:space="preserve"><value>Product not found.</value></data>
+  <data name="ERR_CATEGORY_NOT_FOUND" xml:space="preserve"><value>Category not found.</value></data>
+  <data name="ERR_PAYMENT_INVALID_AMOUNT" xml:space="preserve"><value>Invalid payment amount.</value></data>
+  <data name="ERR_ORDER_ALREADY_PROCESSED" xml:space="preserve"><value>Order has already been processed.</value></data>
+  <data name="ERR_PAYMENT_PROCESSING" xml:space="preserve"><value>Payment is being processed. Please do not submit again.</value></data>
+  <data name="ERR_ORDER_CALCULATION_FAILED" xml:space="preserve"><value>Order calculation failed.</value></data>
+  <data name="ERR_ORDER_CANNOT_COMPLETE" xml:space="preserve"><value>Can only confirm receipt for orders that are shipping or confirmed.</value></data>
+  <data name="ERR_UNAUTHORIZED" xml:space="preserve"><value>Unauthorized access.</value></data>
+  <data name="ERR_ORDER_ALREADY_CANCELLED" xml:space="preserve"><value>Order has already been cancelled.</value></data>
+  <data name="ERR_ORDER_CANNOT_CANCEL_NOT_PENDING" xml:space="preserve"><value>Can only cancel pending orders.</value></data>
+  <data name="ERR_ORDER_NOT_FOUND" xml:space="preserve"><value>Order not found or you don't have access to it.</value></data>
+  <data name="SUCCESS_ORDER_COD" xml:space="preserve"><value>Order placed successfully (COD).</value></data>
+  <data name="SUCCESS_ORDER_VNPAY" xml:space="preserve"><value>Please complete payment within 5 minutes.</value></data>
+</root>
+
+

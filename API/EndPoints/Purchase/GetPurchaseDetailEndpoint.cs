@@ -66,7 +66,7 @@ namespace API.EndPoints.Purchase
 
                 if (order == null)
                 {
-                    await this.SendApiResponseAsync(Result<ResOrder>.Failure("Order not found.", 404), ct);
+                    await this.SendApiResponseAsync(Result<ResOrder>.Failure("ERR_ORDER_NOT_FOUND", 404), ct);
                     return;
                 }
 
@@ -85,10 +85,11 @@ namespace API.EndPoints.Purchase
 
                 await this.SendApiResponseAsync(Result<ResOrder>.Success(order), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Result<ResOrder>.Failure("An internal error occurred while fetching order details.", 500), ct);
+                await this.SendApiResponseAsync(Result<ResOrder>.Failure("ERR_SERVER_ERROR", 500), ct);
             }
         }
     }
 }
+

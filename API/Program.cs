@@ -29,9 +29,19 @@ namespace API
                             .AddMessageBrokerConfiguration(builder.Configuration)
                             .AddCacheConfiguration(builder.Configuration)
                             .AddRateLimitingConfiguration()
-                            .AddJwtAuthentication(builder.Configuration);
+                            .AddJwtAuthentication(builder.Configuration)
+                            .AddLocalization();
 
             var app = builder.Build();
+
+            // ──────────── Localization Configuration ────────────
+            var supportedCultures = new[] { "vi", "en" };
+            var localizationOptions = new RequestLocalizationOptions()
+                .SetDefaultCulture(supportedCultures[0])
+                .AddSupportedCultures(supportedCultures)
+                .AddSupportedUICultures(supportedCultures);
+            localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
+            app.UseRequestLocalization(localizationOptions);
 
             // ──────────── Global Exception Handling ────────────
             app.UseExceptionHandler(errorApp =>
@@ -44,11 +54,13 @@ namespace API
                         Log.Error(ex, "Unhandled exception occurred while processing request");
                     }
 
+                    var localizer = context.RequestServices.GetRequiredService<Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource>>();
+
                     context.Response.StatusCode = 500;
                     context.Response.ContentType = "application/json";
                     var response = new ApiErrorResponse
                     {
-                        Message = "Hệ thống đang gặp sự cố, vui lòng thử lại sau.",
+                        Message = localizer["ERR_INTERNAL_SERVER"],
                         ErrorCode = "ERR_INTERNAL_SERVER",
                         TraceId = context.TraceIdentifier
                     };
@@ -59,14 +71,14 @@ namespace API
             // ──────────── Middlewares ────────────
             app.UseMiddleware<SecurityHeadersMiddleware>();
             app.UseMiddleware<XssSanitizationMiddleware>();
-            app.UseMiddleware<LogContextMiddleware>();
             
-            app.UseSerilogRequestLogging();
             app.UseRouting();
             app.UseCors("CORS");
             app.UseHttpsRedirection();
             
             app.UseAuthentication();
+            app.UseMiddleware<LogContextMiddleware>();
+            app.UseSerilogRequestLogging();
             app.UseMiddleware<AccessTokenBlacklistMiddleware>();
             app.UseAuthorization();
             
@@ -76,9 +88,10 @@ namespace API
             {
                 c.Errors.ResponseBuilder = (failures, ctx, statusCode) =>
                 {
+                    var localizer = ctx.RequestServices.GetRequiredService<Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource>>();
                     return new ApiErrorResponse
                     {
-                        Message = "Dữ liệu đầu vào không hợp lệ.",
+                        Message = localizer["ERR_VALIDATION_FAILED"],
                         ErrorCode = "ERR_VALIDATION_FAILED",
                         Errors = failures.Select(f => new 
                         {

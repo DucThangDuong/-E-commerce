@@ -27,7 +27,7 @@ namespace Application.Features.Categories.Commands
             }
             else
             {
-                return Result.Failure("Failed to add new category", 500);
+                return Result.Failure("ERR_CATEGORY_CREATE_FAILED", 500);
             }
         }
     }

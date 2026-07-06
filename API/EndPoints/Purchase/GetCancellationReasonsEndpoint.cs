@@ -54,9 +54,9 @@ namespace API.EndPoints.Purchase
 
                 await this.SendApiResponseAsync(Result<List<ResCancellationReasonDto>>.Success(reasons), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Result<List<ResCancellationReasonDto>>.Failure($"Lỗi khi lấy danh sách lý do hủy: {ex.Message}", 500), ct);
+                await this.SendApiResponseAsync(Result<List<ResCancellationReasonDto>>.Failure("ERR_SERVER_ERROR", 500), ct);
             }
         }
     }

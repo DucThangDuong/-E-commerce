@@ -28,7 +28,7 @@ namespace Application.Features.Order.Commands
             try
             {
                 if (!int.TryParse(request.UserId, out int customerId))
-                    return Result<string>.Failure("Unauthorized", 401);
+                    return Result<string>.Failure("ERR_UNAUTHORIZED", 401);
 
                 var order = await _db.Orders
                     .Include(o => o.OrderItems)
@@ -37,14 +37,14 @@ namespace Application.Features.Order.Commands
                     .FirstOrDefaultAsync(o => o.OrderId == request.OrderId && o.CustomerId == customerId, cancellationToken);
 
                 if (order == null)
-                    return Result<string>.Failure("Đơn hàng không tồn tại hoặc không thuộc quyền sở hữu của bạn.", 404);
+                    return Result<string>.Failure("ERR_ORDER_NOT_FOUND", 404);
 
                 if (order.Status.Equals(Domain.Enums.OrderStatus.Cancelled.ToString(), StringComparison.OrdinalIgnoreCase) || 
                     order.Status.Equals("Canceled", StringComparison.OrdinalIgnoreCase))
-                    return Result<string>.Failure("Đơn hàng đã được hủy trước đó.", 400);
+                    return Result<string>.Failure("ERR_ORDER_ALREADY_CANCELLED", 400);
 
                 if (!order.Status.Equals(Domain.Enums.OrderStatus.Pending.ToString(), StringComparison.OrdinalIgnoreCase))
-                    return Result<string>.Failure("Chỉ có thể hủy đơn hàng đang ở trạng thái chờ xử lý (Pending).", 400);
+                    return Result<string>.Failure("ERR_ORDER_CANNOT_CANCEL_NOT_PENDING", 400);
 
                 var cancellationReasons = await _db.CancellationReasons.ToListAsync(cancellationToken);
                 var matchedReason = cancellationReasons.FirstOrDefault(x => x.Content.Equals(request.Reason, StringComparison.OrdinalIgnoreCase));
@@ -92,9 +92,9 @@ namespace Application.Features.Order.Commands
 
                 return Result<string>.Success("Hủy đơn hàng thành công.", 200);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result<string>.Failure($"Có lỗi xảy ra: {ex.Message}", 500);
+                return Result<string>.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }

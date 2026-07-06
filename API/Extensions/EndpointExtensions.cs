@@ -11,14 +11,15 @@ namespace API.Extensions
             this BaseEndpoint ep,
             Result<TData> result,
             CancellationToken ct,
-            string Message = "Thực hiện thành công",
+            string Message = "SUCCESS_OPERATION",
             string ErrorCode = "ERR_BAD_REQUEST")
         {
+            var localizer = ep.HttpContext.RequestServices.GetService<Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource>>();
             if (result.IsSuccess)
             {
                 var response = new ApiSuccessResponse<TData>
                 {
-                    Message = Message,
+                    Message = localizer?[Message] ?? Message,
                     Data = result.Data,
                 };
                 await ep.HttpContext.Response.SendAsync(response, result.StatusCode, cancellation: ct);
@@ -27,7 +28,7 @@ namespace API.Extensions
             {
                 var response = new ApiErrorResponse
                 {
-                    Message = result.ErrorCode ?? "Đã xảy ra lỗi",
+                    Message = localizer?[result.ErrorCode ?? "ERR_UNKNOWN"] ?? result.ErrorCode ?? "Đã xảy ra lỗi",
                     ErrorCode = result.StatusCode == 400 || result.StatusCode == 409 ? ErrorCode : "ERR_INTERNAL_SERVER",
                     Errors = result.Errors != null && result.Errors.Any() ? result.Errors : result.Data,
                     TraceId = ep.HttpContext.TraceIdentifier
@@ -40,7 +41,7 @@ namespace API.Extensions
             this BaseEndpoint ep,
             Result result,
             CancellationToken ct,
-            string Message = "Thực hiện thành công",
+            string Message = "SUCCESS_OPERATION",
             string defaultErrorCode = "ERR_BAD_REQUEST")
         {
             if (result.StatusCode == 204 || result.StatusCode == 205 || result.StatusCode == 304)
@@ -48,11 +49,12 @@ namespace API.Extensions
                 await ep.HttpContext.Response.SendAsync(result.StatusCode, cancellation: ct);
                 return;
             }
+            var localizer = ep.HttpContext.RequestServices.GetService<Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource>>();
             if (result.IsSuccess)
             {
                 var response = new ApiSuccessResponse<object>
                 {
-                    Message = Message,
+                    Message = localizer?[Message] ?? Message,
                 };
                 await ep.HttpContext.Response.SendAsync(response, result.StatusCode, cancellation: ct);
             }
@@ -60,7 +62,7 @@ namespace API.Extensions
             {
                 var response = new ApiErrorResponse
                 {
-                    Message = result.ErrorCode ?? "Đã xảy ra lỗi",
+                    Message = localizer?[result.ErrorCode ?? "ERR_UNKNOWN"] ?? result.ErrorCode ?? "Đã xảy ra lỗi",
                     ErrorCode = result.StatusCode == 400 || result.StatusCode == 409 ? defaultErrorCode : "ERR_INTERNAL_SERVER",
                     Errors = result.Errors != null && result.Errors.Any() ? result.Errors : null,
                     TraceId = ep.HttpContext.TraceIdentifier

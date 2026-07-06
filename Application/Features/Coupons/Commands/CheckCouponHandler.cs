@@ -27,7 +27,7 @@ namespace Application.Features.Coupons.Commands
         {
             if (string.IsNullOrWhiteSpace(request.CouponCode))
             {
-                return Result<ResCheckCoupon>.Failure("Mã giảm giá không được để trống.", 400);
+                return Result<ResCheckCoupon>.Failure("ERR_COUPON_EMPTY", 400);
             }
 
             var itemUserWantBuy = new Dictionary<int, int>();
@@ -51,7 +51,7 @@ namespace Application.Features.Coupons.Commands
             {
                 if (!colorPrices.TryGetValue(item.Key, out decimal unitPrice))
                 {
-                    return Result<ResCheckCoupon>.Failure($"Sản phẩm màu ID {item.Key} không có thông tin giá hợp lệ.", 400);
+                    return Result<ResCheckCoupon>.Failure("ERR_COUPON_PRODUCT_PRICE_INVALID", 400);
                 }
                 subTotal += unitPrice * item.Value;
             }
@@ -62,15 +62,15 @@ namespace Application.Features.Coupons.Commands
 
             if (coupon == null)
             {
-                return Result<ResCheckCoupon>.Failure("Mã giảm giá không tồn tại hoặc đã bị vô hiệu hóa.", 400);
+                return Result<ResCheckCoupon>.Failure("ERR_COUPON_NOT_FOUND", 400);
             }
             if (DateTime.UtcNow < coupon.StartDate || DateTime.UtcNow > coupon.EndDate)
             {
-                return Result<ResCheckCoupon>.Failure("Mã giảm giá đã hết hạn sử dụng.", 400);
+                return Result<ResCheckCoupon>.Failure("ERR_COUPON_EXPIRED", 400);
             }
             if (coupon.UsageLimit.HasValue && coupon.UsedCount >= coupon.UsageLimit)
             {
-                return Result<ResCheckCoupon>.Failure("Mã giảm giá đã hết lượt sử dụng.", 400);
+                return Result<ResCheckCoupon>.Failure("ERR_COUPON_USAGE_LIMIT_REACHED", 400);
             }
             if (coupon.UsageLimitPerUser.HasValue)
             {
@@ -79,13 +79,12 @@ namespace Application.Features.Coupons.Commands
 
                 if (userUsageCount >= coupon.UsageLimitPerUser.Value)
                 {
-                    return Result<ResCheckCoupon>.Failure("Bạn đã sử dụng hết số lần cho phép của mã giảm giá này.", 400);
+                    return Result<ResCheckCoupon>.Failure("ERR_COUPON_CUSTOMER_USAGE_LIMIT_REACHED", 400);
                 }
             }
             if (coupon.MinOrderValue.HasValue && subTotal < coupon.MinOrderValue.Value)
             {
-                return Result<ResCheckCoupon>.Failure(
-                    $"Đơn hàng phải có giá trị tối thiểu {coupon.MinOrderValue.Value:N0}đ để áp dụng mã này.", 400);
+                return Result<ResCheckCoupon>.Failure("ERR_COUPON_MIN_ORDER_VALUE", 400);
             }
 
             decimal discountAmount = 0;

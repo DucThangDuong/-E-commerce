@@ -26,12 +26,12 @@ namespace Application.Features.Order.Commands
 
             if (order == null)
             {
-                return Result<string>.Failure("Không tìm thấy đơn hàng.", 404);
+                return Result<string>.Failure("ERR_ORDER_NOT_FOUND", 404);
             }
 
             if (order.Status != OrderStatus.Shipping.ToString() && order.Status != OrderStatus.Confirmed.ToString())
             {
-                return Result<string>.Failure("Chỉ có thể xác nhận nhận hàng đối với đơn hàng đang giao hoặc đã xác nhận.", 400);
+                return Result<string>.Failure("ERR_ORDER_CANNOT_COMPLETE", 400);
             }
 
             order.Status = OrderStatus.Completed.ToString();

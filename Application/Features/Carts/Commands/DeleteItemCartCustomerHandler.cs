@@ -24,12 +24,13 @@ namespace Application.Features.Carts.Commands
                 {
                     return Result.Success(204);
                 }
-                return Result.Failure("Failed to delete cart item.", 500);
+                return Result.Failure("ERR_CART_DELETE_FAILED", 500);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result.Failure("An internal error occurred while deleting the cart item.", 500);
+                return Result.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }
 }
+

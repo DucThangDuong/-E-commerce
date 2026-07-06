@@ -32,12 +32,12 @@ namespace Application.Features.Customers.Commands
         {
             if (string.IsNullOrEmpty(command.Email) || string.IsNullOrEmpty(command.Password))
             {
-                return Result<LoginResponse>.Failure("Email và mật khẩu không được để trống.", 400);
+                return Result<LoginResponse>.Failure("ERR_AUTH_CREDENTIALS_EMPTY", 400);
             }
             var userEntity = await _customerRepository.GetByEmailAsync(command.Email);
             if (userEntity == null || !BCrypt.Net.BCrypt.Verify(command.Password, userEntity.PasswordHash))
             {
-                return Result<LoginResponse>.Failure("Tài khoản hoặc mật khẩu không chính xác.", 401);
+                return Result<LoginResponse>.Failure("ERR_AUTH_CREDENTIALS_INVALID", 401);
             }
             try
             {
@@ -60,9 +60,9 @@ namespace Application.Features.Customers.Commands
                     RefreshTokenExpiryTime = refreshToken.ExpiryDate,
                 },200);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result<LoginResponse>.Failure($"Lỗi server: {ex.Message}", 500);
+                return Result<LoginResponse>.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }

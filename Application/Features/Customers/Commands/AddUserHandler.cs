@@ -23,24 +23,25 @@ namespace Application.Features.Customers.Commands
         {
             if (string.IsNullOrEmpty(command.Email) || string.IsNullOrEmpty(command.Password) || string.IsNullOrEmpty(command.Name))
             {
-                return Result.Failure("Email, Password và Name không được để trống", 400);
+                return Result.Failure("ERR_AUTH_CREDENTIALS_EMPTY", 400);
             }
             try
             {
                 bool isEmailExists = await _customerRepository.EmailExistsAsync(command.Email);
                 if (isEmailExists)
                 {
-                    return Result.Failure("Email đã tồn tại", 400);
+                    return Result.Failure("ERR_AUTH_EMAIL_EXISTS", 400);
                 }
                 await _customerRepository.AddAsync(command.Email, command.Password, command.Name);
 
                 await _unitOfWork.SaveChangesAsync(ct);
                 return Result.Success(201);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result.Failure("Đã xảy ra lỗi nội bộ trong quá trình đăng ký.", 500);
+                return Result.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }
 }
+

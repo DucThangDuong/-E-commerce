@@ -6,19 +6,20 @@ namespace API.DTOs.Validators;
 
 public class OrderValidator : Validator<ReqAddNewOrder>
 {
-    public OrderValidator()
+    public OrderValidator(Microsoft.Extensions.Localization.IStringLocalizer<API.SharedResource> localizer)
     {
         RuleFor(x => x.Items)
-            .NotNull().WithMessage("Danh sách sản phẩm không được null.")
-            .NotEmpty().WithMessage("Danh sách sản phẩm phải có ít nhất 1 sản phẩm.");
+            .NotNull().WithMessage(x => localizer["VAL_ITEMS_NULL"])
+            .NotEmpty().WithMessage(x => localizer["VAL_ITEMS_MIN"]);
 
         RuleForEach(x => x.Items).ChildRules(items =>
         {
             items.RuleFor(x => x.ColorId)
-                .GreaterThan(0).WithMessage("ProductId phải lớn hơn 0.");
+                .GreaterThan(0).WithMessage(x => localizer["VAL_COLOR_ID_INVALID"]);
             
             items.RuleFor(x => x.Quantity)
-                .GreaterThan(0).WithMessage("Số lượng mua phải lớn hơn 0.");
+                .GreaterThan(0).WithMessage(x => localizer["VAL_QUANTITY_INVALID"]);
         });
     }
 }
+

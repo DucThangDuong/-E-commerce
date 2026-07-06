@@ -29,7 +29,7 @@ namespace API.EndPoints.Cart
             int userId = HttpContext.User.GetUserId();
             if (userId == 0 || req.cartId == 0)
             {
-                await Send.ResponseAsync(new { message = "Invalid request parameters" }, statusCode: 400, ct);
+                await this.SendApiResponseAsync(Application.Common.Result.Failure("ERR_INVALID_CART_REQUEST", 400), ct);
                 return;
             }
             

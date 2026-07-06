@@ -1,4 +1,4 @@
-﻿using Application.Common;
+using Application.Common;
 using Application.Interfaces;
 using Application.IServices;
 using MediatR;
@@ -29,13 +29,13 @@ namespace Application.Features.Customers.Commands
                 int result = await _customerRepository.UpdateAvatarProfileAsync(request.userId, newAvatarUrl);
                 if (result == 0)
                 {
-                    return Result<string>.Failure("Failed to update avatar profile.");
+                    return Result<string>.Failure("ERR_AVATAR_UPDATE_FAILED");
                 }
                 return Result<string>.Success(newAvatarUrl);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result<string>.Failure(ex.Message);
+                return Result<string>.Failure("ERR_SERVER_ERROR");
             }
         }
     }

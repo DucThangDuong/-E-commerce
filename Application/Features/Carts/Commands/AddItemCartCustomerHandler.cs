@@ -32,7 +32,7 @@ namespace Application.Features.Carts.Commands
 
                 if (stockQuantity == null)
                 {
-                    return Result.Failure("Variant not found.", 404);
+                    return Result.Failure("ERR_VARIANT_NOT_FOUND", 404);
                 }
 
                 var existingCart = await _cartRepository.GetCartAsync(command.CustomerId, command.ColorId);
@@ -40,7 +40,7 @@ namespace Application.Features.Carts.Commands
 
                 if (stockQuantity.Value == 0 || (currentQuantityInCart + command.Quantity) > stockQuantity.Value)
                 {
-                    return Result.Failure("Not enough stock available for the requested quantity.", 400);
+                    return Result.Failure("ERR_STOCK_NOT_ENOUGH", 400);
                 }
 
                 if (existingCart != null)
@@ -64,7 +64,7 @@ namespace Application.Features.Carts.Commands
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding item to cart. CustomerId: {CustomerId}, ColorId: {ColorId}", command.CustomerId, command.ColorId);
-                return Result.Failure("An internal error occurred while processing your request.", 500);
+                return Result.Failure("ERR_SERVER_ERROR", 500);
             }
         }
     }

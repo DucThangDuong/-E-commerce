@@ -27,19 +27,7 @@ namespace API.EndPoints.Order
             string frontendBaseUrl = _configuration["FrontendUrl"] ?? "http://localhost:5173";
             string frontendUrl = $"{frontendBaseUrl.TrimEnd('/')}/purchase";
             string redirectUrl;
-
-            if (response.Success)
-            {
-                redirectUrl = $"{frontendUrl}?tab=completed&payment=success&orderId={response.OrderId}";
-            }
-            else if (response.ResponseCode == "24")
-            {
-                redirectUrl = $"{frontendUrl}?tab=cancelled&payment=cancelled&orderId={response.OrderId}";
-            }
-            else
-            {
-                redirectUrl = $"{frontendUrl}?tab=pending&payment=failed&orderId={response.OrderId}";
-            }
+            redirectUrl = $"{frontendUrl}?tab=pending&payment=verifying&orderId={response.OrderId}";
 
             HttpContext.Response.Redirect(redirectUrl);
             await Task.CompletedTask;

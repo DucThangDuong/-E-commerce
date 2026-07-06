@@ -69,9 +69,9 @@ namespace API.EndPoints.Cart
                     .ToListAsync(ct);
                 await this.SendApiResponseAsync(Result<List<ResCartDto>>.Success(result, 200), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Result<List<ResCartDto>>.Failure(ex.Message, 400), ct);
+                await this.SendApiResponseAsync(Result<List<ResCartDto>>.Failure("ERR_SERVER_ERROR", 400), ct);
             }
         }
     }

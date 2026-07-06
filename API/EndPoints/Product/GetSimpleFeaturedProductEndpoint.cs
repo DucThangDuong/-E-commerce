@@ -48,9 +48,9 @@ namespace API.EndPoints.Product
 
                 await this.SendApiResponseAsync(Application.Common.Result<List<ResSimpleFeaturedProductDto>>.Success(featuredProducts ?? new List<ResSimpleFeaturedProductDto>()), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Application.Common.Result<List<ResSimpleFeaturedProductDto>>.Failure($"Failed to retrieve simple featured products: {ex.Message}", 500), ct);
+                await this.SendApiResponseAsync(Application.Common.Result<List<ResSimpleFeaturedProductDto>>.Failure("ERR_SERVER_ERROR", 500), ct);
             }
         }
     }

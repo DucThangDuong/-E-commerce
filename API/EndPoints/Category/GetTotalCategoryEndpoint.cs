@@ -54,9 +54,9 @@ namespace API.EndPoints.Category
 
                 await this.SendApiResponseAsync(Result<List<ResCategoryDto>>.Success(cachedResult ?? new List<ResCategoryDto>()), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Result<List<ResCategoryDto>>.Failure(ex.Message), ct);
+                await this.SendApiResponseAsync(Result<List<ResCategoryDto>>.Failure("ERR_SERVER_ERROR"), ct);
             }
         }
     }

@@ -73,9 +73,9 @@ namespace API.EndPoints.Product
 
                 await this.SendApiResponseAsync(Application.Common.Result<ResPagedProductDto>.Success(pagedResult, 200), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await this.SendApiResponseAsync(Application.Common.Result<ResPagedProductDto>.Failure($"Lỗi khi lấy danh sách sản phẩm: {ex.Message}", 500), ct);
+                await this.SendApiResponseAsync(Application.Common.Result<ResPagedProductDto>.Failure("ERR_SERVER_ERROR", 500), ct);
             }
         }
     }

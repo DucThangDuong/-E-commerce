@@ -15,9 +15,17 @@ public class SendMailConsumer : IConsumer<SendMail>
         _emailSender = emailSender;
     }
 
-    public Task Consume(ConsumeContext<SendMail> context)
+    public async Task Consume(ConsumeContext<SendMail> context)
     {
-        _emailSender.SendEmailAsync(context.Message.email, context.Message.subject, context.Message.htmlMessage);
-        return Task.CompletedTask;
+        try
+        {
+            await _emailSender.SendEmailAsync(context.Message.email, context.Message.subject, context.Message.htmlMessage);
+            _logger.LogInformation("Email sent successfully to {Email}", context.Message.email);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to send email to {Email}", context.Message.email);
+            throw;
+        }
     }
 }

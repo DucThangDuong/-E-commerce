@@ -26,7 +26,7 @@ namespace API.EndPoints.Order
         {
             if (!HttpContext.Request.Headers.TryGetValue("Idempotency-Key", out var idempotencyKey) && req.TypePayment == 1)
             {
-                Result Fail = Result.Failure("Missing Header: Idempotency-Key is required.", 400);
+                Result Fail = Result.Failure("ERR_MISSING_IDEMPOTENCY_KEY", 400);
                 await this.SendApiResponseAsync(Fail, ct, defaultErrorCode: "ERR_MISSING_IDEMPOTENCY_KEY");
                 return;
             }
@@ -41,7 +41,7 @@ namespace API.EndPoints.Order
             ), ct);
 
             await this.SendApiResponseAsync(result, ct,
-                Message: "Tạo yêu cầu thanh toán thành công",
+                Message: "SUCCESS_PAYMENT",
                 ErrorCode: "ERR_PAYMENT_FAILED");
         }
     }
