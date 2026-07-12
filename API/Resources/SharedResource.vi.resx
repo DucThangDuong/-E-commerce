@@ -1,99 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    Version 2.0
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    Example:
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -107,236 +13,144 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ERR_INTERNAL_SERVER" xml:space="preserve">
-    <value>Há»‡ thá»‘ng Ä‘ang gáº·p sá»± cá»‘, vui lÃ²ng thá»­ láº¡i sau.</value>
+    <value>Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.</value>
   </data>
   <data name="SUCCESS_PAYMENT" xml:space="preserve">
-    <value>Thanh toÃ¡n thÃ nh cÃ´ng!</value>
+    <value>Thanh toán thành công!</value>
   </data>
   <data name="VAL_BRAND_NAME_EMPTY" xml:space="preserve">
-    <value>TÃªn thÆ°Æ¡ng hiá»‡u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
+    <value>Tên thương hiệu không được để trống.</value>
   </data>
   <data name="VAL_BRAND_NAME_MAX" xml:space="preserve">
-    <value>TÃªn thÆ°Æ¡ng hiá»‡u khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 100 kÃ½ tá»±.</value>
+    <value>Tên thương hiệu không được vượt quá 100 ký tự.</value>
   </data>
   <data name="VAL_BRAND_DESC_MAX" xml:space="preserve">
-    <value>MÃ´ táº£ khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 500 kÃ½ tá»±.</value>
+    <value>Mô tả không được vượt quá 500 ký tự.</value>
   </data>
   <data name="VAL_BRAND_LOGO_MAX" xml:space="preserve">
-    <value>URL logo khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 2048 kÃ½ tá»±.</value>
+    <value>URL logo không được vượt quá 2048 ký tự.</value>
   </data>
   <data name="VAL_XSS_DETECTED" xml:space="preserve">
-    <value>Chá»©a ná»™i dung khÃ´ng há»£p lá»‡ (phÃ¡t hiá»‡n mÃ£ Ä‘á»™c).</value>
+    <value>Nội dung chứa mã độc hoặc không hợp lệ.</value>
   </data>
   <data name="VAL_URL_INVALID" xml:space="preserve">
-    <value>URL khÃ´ng há»£p lá»‡ (chá»‰ cháº¥p nháº­n http/https).</value>
+    <value>URL không hợp lệ (chỉ chấp nhận http/https).</value>
   </data>
   <data name="SUCCESS_BRAND_CREATED" xml:space="preserve">
-    <value>Táº¡o thÆ°Æ¡ng hiá»‡u thÃ nh cÃ´ng!</value>
+    <value>Thêm thương hiệu thành công!</value>
   </data>
   <data name="VAL_COLOR_ID_INVALID" xml:space="preserve">
-    <value>ID mÃ u sáº¯c pháº£i lá»›n hÆ¡n 0.</value>
+    <value>Color ID phải lớn hơn 0.</value>
   </data>
   <data name="VAL_QUANTITY_INVALID" xml:space="preserve">
-    <value>Sá»‘ lÆ°á»£ng pháº£i lá»›n hÆ¡n 0.</value>
+    <value>Số lượng phải lớn hơn 0.</value>
   </data>
   <data name="VAL_CATEGORY_NAME_EMPTY" xml:space="preserve">
-    <value>TÃªn danh má»¥c khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
+    <value>Tên danh mục không được để trống.</value>
   </data>
   <data name="VAL_CATEGORY_NAME_MAX" xml:space="preserve">
-    <value>TÃªn danh má»¥c khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 100 kÃ½ tá»±.</value>
+    <value>Tên danh mục không được vượt quá 100 ký tự.</value>
   </data>
   <data name="VAL_CATEGORY_DESC_MAX" xml:space="preserve">
-    <value>MÃ´ táº£ khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 500 kÃ½ tá»±.</value>
+    <value>Mô tả không được vượt quá 500 ký tự.</value>
   </data>
   <data name="VAL_CATEGORY_PICTURE_MAX" xml:space="preserve">
-    <value>URL hÃ¬nh áº£nh khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 2048 kÃ½ tá»±.</value>
+    <value>URL hình ảnh không được vượt quá 2048 ký tự.</value>
   </data>
-  <data name="VAL_EMAIL_EMPTY" xml:space="preserve">
-    <value>Email khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
-  </data>
-  <data name="VAL_EMAIL_INVALID" xml:space="preserve">
-    <value>Email khÃ´ng Ä‘Ãºng Ä‘á»‹nh dáº¡ng.</value>
-  </data>
-  <data name="VAL_EMAIL_MAX" xml:space="preserve">
-    <value>Email khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 255 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_PASSWORD_EMPTY" xml:space="preserve">
-    <value>Máº­t kháº©u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
-  </data>
-  <data name="VAL_PASSWORD_MAX" xml:space="preserve">
-    <value>Máº­t kháº©u khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 100 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_IDTOKEN_EMPTY" xml:space="preserve">
-    <value>YÃªu cáº§u TokenID.</value>
-  </data>
-  <data name="VAL_IDTOKEN_MAX" xml:space="preserve">
-    <value>TokenID vÆ°á»£t quÃ¡ Ä‘á»™ dÃ i cho phÃ©p.</value>
-  </data>
-  <data name="VAL_IDTOKEN_XSS" xml:space="preserve">
-    <value>TokenID chá»©a ná»™i dung khÃ´ng há»£p lá»‡.</value>
-  </data>
-  <data name="VAL_ITEMS_EMPTY" xml:space="preserve">
-    <value>Danh sÃ¡ch sáº£n pháº©m khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
-  </data>
-  <data name="VAL_FULLNAME_EMPTY" xml:space="preserve">
-    <value>Há» tÃªn khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
-  </data>
-  <data name="VAL_FULLNAME_MAX" xml:space="preserve">
-    <value>Há» tÃªn khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 100 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_FULLNAME_FORMAT" xml:space="preserve">
-    <value>Há» tÃªn chá»‰ Ä‘Æ°á»£c chá»©a chá»¯ cÃ¡i, dáº¥u cháº¥m, gáº¡ch ngang vÃ  khoáº£ng tráº¯ng.</value>
-  </data>
-  <data name="VAL_ADDRESS_EMPTY" xml:space="preserve">
-    <value>Äá»‹a chá»‰ khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
-  </data>
-  <data name="VAL_ADDRESS_MAX" xml:space="preserve">
-    <value>Äá»‹a chá»‰ khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 500 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_PHONE_EMPTY" xml:space="preserve">
-    <value>Sá»‘ Ä‘iá»‡n thoáº¡i khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
-  </data>
-  <data name="VAL_PHONE_MIN" xml:space="preserve">
-    <value>Sá»‘ Ä‘iá»‡n thoáº¡i khÃ´ng Ä‘Æ°á»£c Ã­t hÆ¡n 10 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_PHONE_MAX" xml:space="preserve">
-    <value>Sá»‘ Ä‘iá»‡n thoáº¡i khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 10 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_PHONE_FORMAT" xml:space="preserve">
-    <value>Sá»‘ Ä‘iá»‡n thoáº¡i chá»‰ Ä‘Æ°á»£c chá»©a sá»‘.</value>
-  </data>
-  <data name="VAL_PAYMENT_TYPE_INVALID" xml:space="preserve">
-    <value>Loáº¡i thanh toÃ¡n chá»‰ Ä‘Æ°á»£c lÃ  0 hoáº·c 1.</value>
-  </data>
-  <data name="VAL_ITEMS_NULL" xml:space="preserve">
-    <value>Danh sÃ¡ch sáº£n pháº©m khÃ´ng Ä‘Æ°á»£c null.</value>
-  </data>
-  <data name="VAL_ITEMS_MIN" xml:space="preserve">
-    <value>Danh sÃ¡ch sáº£n pháº©m pháº£i cÃ³ Ã­t nháº¥t 1 sáº£n pháº©m.</value>
-  </data>
-  <data name="VAL_CATEGORY_ID_INVALID" xml:space="preserve">
-    <value>Category_id pháº£i lá»›n hÆ¡n 0.</value>
-  </data>
-  <data name="VAL_BRAND_ID_INVALID" xml:space="preserve">
-    <value>Brand_id pháº£i lá»›n hÆ¡n 0.</value>
-  </data>
-  <data name="VAL_PRODUCT_NAME_EMPTY" xml:space="preserve">
-    <value>TÃªn sáº£n pháº©m khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
-  </data>
-  <data name="VAL_PRODUCT_NAME_MAX" xml:space="preserve">
-    <value>TÃªn sáº£n pháº©m khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 255 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_PRODUCT_DESC_MAX" xml:space="preserve">
-    <value>MÃ´ táº£ khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 5000 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_BASE_PRICE_INVALID" xml:space="preserve">
-    <value>GiÃ¡ sáº£n pháº©m pháº£i lá»›n hÆ¡n 0.</value>
-  </data>
-  <data name="VAL_STOCK_INVALID" xml:space="preserve">
-    <value>Sá»‘ lÆ°á»£ng pháº£i lá»›n hÆ¡n 0.</value>
-  </data>
-  <data name="VAL_PASSWORD_MIN" xml:space="preserve">
-    <value>Máº­t kháº©u pháº£i cÃ³ Ã­t nháº¥t 8 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_PASSWORD_MAX_64" xml:space="preserve">
-    <value>Máº­t kháº©u khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 64 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_PASSWORD_UPPERCASE" xml:space="preserve">
-    <value>Máº­t kháº©u pháº£i chá»©a Ã­t nháº¥t 1 chá»¯ cÃ¡i in hoa.</value>
-  </data>
-  <data name="VAL_PASSWORD_LOWERCASE" xml:space="preserve">
-    <value>Máº­t kháº©u pháº£i chá»©a Ã­t nháº¥t 1 chá»¯ cÃ¡i in thÆ°á»ng.</value>
-  </data>
-  <data name="VAL_PASSWORD_DIGIT" xml:space="preserve">
-    <value>Máº­t kháº©u pháº£i chá»©a Ã­t nháº¥t 1 chá»¯ sá»‘.</value>
-  </data>
-  <data name="VAL_PASSWORD_SPECIAL" xml:space="preserve">
-    <value>Máº­t kháº©u pháº£i chá»©a Ã­t nháº¥t 1 kÃ½ tá»± Ä‘áº·c biá»‡t (VD: @, #, $, ...).</value>
-  </data>
-  <data name="VAL_AVATAR_NULL" xml:space="preserve">
-    <value>Vui lÃ²ng Ä‘Ã­nh kÃ¨m file áº£nh Ä‘áº¡i diá»‡n.</value>
-  </data>
-  <data name="VAL_AVATAR_SIZE" xml:space="preserve">
-    <value>KÃ­ch thÆ°á»›c áº£nh quÃ¡ lá»›n. Vui lÃ²ng chá»n áº£nh dÆ°á»›i 5MB.</value>
-  </data>
-  <data name="VAL_AVATAR_FORMAT" xml:space="preserve">
-    <value>Chá»‰ cháº¥p nháº­n Ä‘á»‹nh dáº¡ng áº£nh JPG hoáº·c PNG.</value>
-  </data>
-  <data name="VAL_NAME_EMPTY" xml:space="preserve">
-    <value>TÃªn khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
-  </data>
-  <data name="VAL_NAME_MAX" xml:space="preserve">
-    <value>TÃªn khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 100 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_NAME_FORMAT" xml:space="preserve">
-    <value>TÃªn chá»‰ Ä‘Æ°á»£c chá»©a chá»¯ cÃ¡i, dáº¥u cháº¥m, gáº¡ch ngang vÃ  khoáº£ng tráº¯ng.</value>
-  </data>
-  <data name="VAL_PHONE_MAX_20" xml:space="preserve">
-    <value>Sá»‘ Ä‘iá»‡n thoáº¡i khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 20 kÃ½ tá»±.</value>
-  </data>
-  <data name="VAL_PHONE_FORMAT_EXT" xml:space="preserve">
-    <value>Sá»‘ Ä‘iá»‡n thoáº¡i chá»‰ Ä‘Æ°á»£c chá»©a sá»‘, dáº¥u +, - vÃ  khoáº£ng tráº¯ng.</value>
-  </data>
-  <data name="VAL_OLD_PASSWORD_EMPTY" xml:space="preserve">
-    <value>Máº­t kháº©u cÅ© khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
-  </data>
-  <data name="VAL_NEW_PASSWORD_EMPTY" xml:space="preserve">
-    <value>Máº­t kháº©u má»›i khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value>
-  </data>
-  <data name="VAL_NEW_PASSWORD_MIN_6" xml:space="preserve">
-    <value>Máº­t kháº©u má»›i pháº£i cÃ³ Ã­t nháº¥t 6 kÃ½ tá»±.</value>
-  </data>
-  <data name="ERR_VALIDATION_FAILED" xml:space="preserve"><value>Dá»¯ liá»‡u Ä‘áº§u vÃ o khÃ´ng há»£p lá»‡.</value></data>
-  <data name="ERR_AUTH_CREDENTIALS_EMPTY" xml:space="preserve"><value>Email vÃ  máº­t kháº©u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value></data>
-  <data name="ERR_AUTH_EMAIL_EXISTS" xml:space="preserve"><value>Email Ä‘Ã£ tá»“n táº¡i trong há»‡ thá»‘ng.</value></data>
-  <data name="ERR_SERVER_ERROR" xml:space="preserve"><value>ÄÃ£ xáº£y ra lá»—i há»‡ thá»‘ng. Vui lÃ²ng thá»­ láº¡i sau.</value></data>
-  <data name="ERR_AUTH_CREDENTIALS_INVALID" xml:space="preserve"><value>TÃ i khoáº£n hoáº·c máº­t kháº©u khÃ´ng chÃ­nh xÃ¡c.</value></data>
-  <data name="ERR_AUTH_GOOGLE_FAILED" xml:space="preserve"><value>ÄÄƒng nháº­p báº±ng Google tháº¥t báº¡i.</value></data>
-  <data name="ERR_TOKEN_NOT_FOUND" xml:space="preserve"><value>KhÃ´ng tÃ¬m tháº¥y Token.</value></data>
-  <data name="ERR_TOKEN_INVALID" xml:space="preserve"><value>Token khÃ´ng há»£p lá»‡ hoáº·c Ä‘Ã£ háº¿t háº¡n.</value></data>
-  <data name="SUCCESS_LOGIN" xml:space="preserve"><value>ÄÄƒng nháº­p thÃ nh cÃ´ng.</value></data>
-  <data name="SUCCESS_TOKEN_REFRESHED" xml:space="preserve"><value>LÃ m má»›i token thÃ nh cÃ´ng.</value></data>
-  <data name="ERR_UNKNOWN" xml:space="preserve"><value>ÄÃ£ xáº£y ra lá»—i khÃ´ng xÃ¡c Ä‘á»‹nh.</value></data>
-  <data name="ERR_LOGIN_FAILED" xml:space="preserve"><value>ÄÄƒng nháº­p tháº¥t báº¡i.</value></data>
-  <data name="ERR_TOKEN_REFRESH_FAILED" xml:space="preserve"><value>LÃ m má»›i token tháº¥t báº¡i.</value></data>
-  <data name="SUCCESS_OPERATION" xml:space="preserve"><value>Thá»±c hiá»‡n thÃ nh cÃ´ng.</value></data>
-  <data name="ERR_BRAND_CREATE_FAILED" xml:space="preserve"><value>ThÃªm thÆ°Æ¡ng hiá»‡u tháº¥t báº¡i.</value></data>
-  <data name="ERR_CATEGORY_CREATE_FAILED" xml:space="preserve"><value>ThÃªm danh má»¥c tháº¥t báº¡i.</value></data>
-  <data name="ERR_VARIANT_NOT_FOUND" xml:space="preserve"><value>KhÃ´ng tÃ¬m tháº¥y phiÃªn báº£n sáº£n pháº©m.</value></data>
-  <data name="ERR_STOCK_NOT_ENOUGH" xml:space="preserve"><value>KhÃ´ng Ä‘á»§ hÃ ng trong kho.</value></data>
-  <data name="ERR_CART_DELETE_FAILED" xml:space="preserve"><value>XÃ³a sáº£n pháº©m khá»i giá» hÃ ng tháº¥t báº¡i.</value></data>
-  <data name="ERR_CART_ITEM_NOT_FOUND" xml:space="preserve"><value>KhÃ´ng tÃ¬m tháº¥y sáº£n pháº©m trong giá» hÃ ng.</value></data>
-  <data name="ERR_INVALID_CART_REQUEST" xml:space="preserve"><value>ThÃ´ng tin giá» hÃ ng khÃ´ng há»£p lá»‡.</value></data>
-  <data name="ERR_COUPON_EMPTY" xml:space="preserve"><value>MÃ£ giáº£m giÃ¡ khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value></data>
-  <data name="ERR_COUPON_PRODUCT_PRICE_INVALID" xml:space="preserve"><value>Sáº£n pháº©m khÃ´ng cÃ³ thÃ´ng tin giÃ¡ há»£p lá»‡.</value></data>
-  <data name="ERR_COUPON_NOT_FOUND" xml:space="preserve"><value>MÃ£ giáº£m giÃ¡ khÃ´ng tá»“n táº¡i hoáº·c Ä‘Ã£ bá»‹ vÃ´ hiá»‡u hÃ³a.</value></data>
-  <data name="ERR_COUPON_EXPIRED" xml:space="preserve"><value>MÃ£ giáº£m giÃ¡ Ä‘Ã£ háº¿t háº¡n sá»­ dá»¥ng.</value></data>
-  <data name="ERR_COUPON_USAGE_LIMIT_REACHED" xml:space="preserve"><value>MÃ£ giáº£m giÃ¡ Ä‘Ã£ háº¿t lÆ°á»£t sá»­ dá»¥ng.</value></data>
-  <data name="ERR_COUPON_CUSTOMER_USAGE_LIMIT_REACHED" xml:space="preserve"><value>Báº¡n Ä‘Ã£ sá»­ dá»¥ng háº¿t sá»‘ láº§n cho phÃ©p cá»§a mÃ£ giáº£m giÃ¡ nÃ y.</value></data>
-  <data name="ERR_COUPON_MIN_ORDER_VALUE" xml:space="preserve"><value>ÄÆ¡n hÃ ng khÃ´ng Ä‘áº¡t giÃ¡ trá»‹ tá»‘i thiá»ƒu Ä‘á»ƒ Ã¡p dá»¥ng mÃ£ nÃ y.</value></data>
-  <data name="ERR_PROFILE_NAME_EMPTY" xml:space="preserve"><value>TÃªn khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value></data>
-  <data name="ERR_USER_NOT_FOUND" xml:space="preserve"><value>KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng.</value></data>
-  <data name="ERR_PROFILE_PHONE_INVALID" xml:space="preserve"><value>Sá»‘ Ä‘iá»‡n thoáº¡i khÃ´ng há»£p lá»‡.</value></data>
-  <data name="ERR_PROFILE_ADDRESS_EMPTY" xml:space="preserve"><value>Äá»‹a chá»‰ khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.</value></data>
-  <data name="ERR_PROFILE_PASSWORD_MIN_LENGTH" xml:space="preserve"><value>Máº­t kháº©u má»›i pháº£i cÃ³ Ã­t nháº¥t 6 kÃ½ tá»±.</value></data>
-  <data name="ERR_PROFILE_NO_PASSWORD_SET" xml:space="preserve"><value>TÃ i khoáº£n chÆ°a Ä‘Æ°á»£c thiáº¿t láº­p máº­t kháº©u (cÃ³ thá»ƒ do Ä‘Äƒng nháº­p báº±ng Google).</value></data>
-  <data name="ERR_PROFILE_OLD_PASSWORD_INCORRECT" xml:space="preserve"><value>Máº­t kháº©u cÅ© khÃ´ng chÃ­nh xÃ¡c.</value></data>
-  <data name="ERR_AVATAR_UPDATE_FAILED" xml:space="preserve"><value>Cáº­p nháº­t áº£nh Ä‘áº¡i diá»‡n tháº¥t báº¡i.</value></data>
-  <data name="ERR_MISSING_IDEMPOTENCY_KEY" xml:space="preserve"><value>Thiáº¿u header Idempotency-Key.</value></data>
-  <data name="ERR_CUSTOMER_NOT_FOUND" xml:space="preserve"><value>KhÃ´ng tÃ¬m tháº¥y há»“ sÆ¡ khÃ¡ch hÃ ng.</value></data>
-  <data name="ERR_PRODUCT_NOT_FOUND" xml:space="preserve"><value>KhÃ´ng tÃ¬m tháº¥y sáº£n pháº©m.</value></data>
-  <data name="ERR_CATEGORY_NOT_FOUND" xml:space="preserve"><value>KhÃ´ng tÃ¬m tháº¥y danh má»¥c.</value></data>
-  <data name="ERR_PAYMENT_INVALID_AMOUNT" xml:space="preserve"><value>Sá»‘ tiá»n thanh toÃ¡n khÃ´ng há»£p lá»‡.</value></data>
-  <data name="ERR_ORDER_ALREADY_PROCESSED" xml:space="preserve"><value>ÄÆ¡n hÃ ng Ä‘Ã£ Ä‘Æ°á»£c xá»­ lÃ½ trÆ°á»›c Ä‘Ã³.</value></data>
-  <data name="ERR_PAYMENT_PROCESSING" xml:space="preserve"><value>Giao dá»‹ch Ä‘ang Ä‘Æ°á»£c xá»­ lÃ½. Vui lÃ²ng khÃ´ng gá»­i láº¡i.</value></data>
-  <data name="ERR_ORDER_CALCULATION_FAILED" xml:space="preserve"><value>Lá»—i tÃ­nh toÃ¡n Ä‘Æ¡n hÃ ng.</value></data>
-  <data name="ERR_ORDER_CANNOT_COMPLETE" xml:space="preserve"><value>Chá»‰ cÃ³ thá»ƒ xÃ¡c nháº­n nháº­n hÃ ng Ä‘á»‘i vá»›i Ä‘Æ¡n hÃ ng Ä‘ang giao hoáº·c Ä‘Ã£ xÃ¡c nháº­n.</value></data>
-  <data name="ERR_UNAUTHORIZED" xml:space="preserve"><value>KhÃ´ng cÃ³ quyá»n truy cáº­p.</value></data>
-  <data name="ERR_ORDER_ALREADY_CANCELLED" xml:space="preserve"><value>ÄÆ¡n hÃ ng Ä‘Ã£ Ä‘Æ°á»£c há»§y trÆ°á»›c Ä‘Ã³.</value></data>
-  <data name="ERR_ORDER_CANNOT_CANCEL_NOT_PENDING" xml:space="preserve"><value>Chá»‰ cÃ³ thá»ƒ há»§y Ä‘Æ¡n hÃ ng Ä‘ang á»Ÿ tráº¡ng thÃ¡i chá» xá»­ lÃ½ (Pending).</value></data>
-  <data name="ERR_ORDER_NOT_FOUND" xml:space="preserve"><value>KhÃ´ng tÃ¬m tháº¥y Ä‘Æ¡n hÃ ng hoáº·c báº¡n khÃ´ng cÃ³ quyá»n truy cáº­p.</value></data>
-  <data name="SUCCESS_ORDER_COD" xml:space="preserve"><value>Đặt hàng thành công (COD).</value></data>
-  <data name="SUCCESS_ORDER_VNPAY" xml:space="preserve"><value>Vui lòng thanh toán trong 5 phút.</value></data>
+  <data name="VAL_EMAIL_EMPTY" xml:space="preserve"><value>Email không được để trống.</value></data>
+  <data name="VAL_EMAIL_INVALID" xml:space="preserve"><value>Định dạng email không hợp lệ.</value></data>
+  <data name="VAL_EMAIL_MAX" xml:space="preserve"><value>Email không được vượt quá 255 ký tự.</value></data>
+  <data name="VAL_PASSWORD_EMPTY" xml:space="preserve"><value>Mật khẩu không được để trống.</value></data>
+  <data name="VAL_PASSWORD_MAX" xml:space="preserve"><value>Mật khẩu không được vượt quá 100 ký tự.</value></data>
+  <data name="VAL_IDTOKEN_EMPTY" xml:space="preserve"><value>TokenID là bắt buộc.</value></data>
+  <data name="VAL_IDTOKEN_MAX" xml:space="preserve"><value>TokenID vượt quá độ dài cho phép.</value></data>
+  <data name="VAL_IDTOKEN_XSS" xml:space="preserve"><value>TokenID chứa nội dung không hợp lệ.</value></data>
+  <data name="VAL_ITEMS_EMPTY" xml:space="preserve"><value>Danh sách sản phẩm không được để trống.</value></data>
+  <data name="VAL_FULLNAME_EMPTY" xml:space="preserve"><value>Họ và tên không được để trống.</value></data>
+  <data name="VAL_FULLNAME_MAX" xml:space="preserve"><value>Họ và tên không được vượt quá 100 ký tự.</value></data>
+  <data name="VAL_FULLNAME_FORMAT" xml:space="preserve"><value>Họ và tên chỉ được chứa chữ cái, dấu chấm, gạch ngang và khoảng trắng.</value></data>
+  <data name="VAL_ADDRESS_EMPTY" xml:space="preserve"><value>Địa chỉ không được để trống.</value></data>
+  <data name="VAL_ADDRESS_MAX" xml:space="preserve"><value>Địa chỉ không được vượt quá 500 ký tự.</value></data>
+  <data name="VAL_PHONE_EMPTY" xml:space="preserve"><value>Số điện thoại không được để trống.</value></data>
+  <data name="VAL_PHONE_MIN" xml:space="preserve"><value>Số điện thoại phải có ít nhất 10 ký tự.</value></data>
+  <data name="VAL_PHONE_MAX" xml:space="preserve"><value>Số điện thoại không được vượt quá 10 ký tự.</value></data>
+  <data name="VAL_PHONE_FORMAT" xml:space="preserve"><value>Số điện thoại chỉ được chứa chữ số.</value></data>
+  <data name="VAL_PAYMENT_TYPE_INVALID" xml:space="preserve"><value>Loại thanh toán phải là 0 hoặc 1.</value></data>
+  <data name="VAL_ITEMS_NULL" xml:space="preserve"><value>Danh sách sản phẩm không được null.</value></data>
+  <data name="VAL_ITEMS_MIN" xml:space="preserve"><value>Danh sách sản phẩm phải có ít nhất 1 sản phẩm.</value></data>
+  <data name="VAL_CATEGORY_ID_INVALID" xml:space="preserve"><value>Category ID phải lớn hơn 0.</value></data>
+  <data name="VAL_BRAND_ID_INVALID" xml:space="preserve"><value>Brand ID phải lớn hơn 0.</value></data>
+  <data name="VAL_PRODUCT_NAME_EMPTY" xml:space="preserve"><value>Tên sản phẩm không được để trống.</value></data>
+  <data name="VAL_PRODUCT_NAME_MAX" xml:space="preserve"><value>Tên sản phẩm không được vượt quá 255 ký tự.</value></data>
+  <data name="VAL_PRODUCT_DESC_MAX" xml:space="preserve"><value>Mô tả không được vượt quá 5000 ký tự.</value></data>
+  <data name="VAL_BASE_PRICE_INVALID" xml:space="preserve"><value>Giá sản phẩm phải lớn hơn 0.</value></data>
+  <data name="VAL_STOCK_INVALID" xml:space="preserve"><value>Số lượng tồn kho phải lớn hơn 0.</value></data>
+  <data name="VAL_PASSWORD_MIN" xml:space="preserve"><value>Mật khẩu phải có ít nhất 8 ký tự.</value></data>
+  <data name="VAL_PASSWORD_MAX_64" xml:space="preserve"><value>Mật khẩu không được vượt quá 64 ký tự.</value></data>
+  <data name="VAL_PASSWORD_UPPERCASE" xml:space="preserve"><value>Mật khẩu phải chứa ít nhất 1 chữ in hoa.</value></data>
+  <data name="VAL_PASSWORD_LOWERCASE" xml:space="preserve"><value>Mật khẩu phải chứa ít nhất 1 chữ in thường.</value></data>
+  <data name="VAL_PASSWORD_DIGIT" xml:space="preserve"><value>Mật khẩu phải chứa ít nhất 1 chữ số.</value></data>
+  <data name="VAL_PASSWORD_SPECIAL" xml:space="preserve"><value>Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt (ví dụ: @, #, $).</value></data>
+  <data name="VAL_AVATAR_NULL" xml:space="preserve"><value>Vui lòng đính kèm file ảnh đại diện.</value></data>
+  <data name="VAL_AVATAR_SIZE" xml:space="preserve"><value>Kích thước file quá lớn. Vui lòng chọn ảnh dưới 5MB.</value></data>
+  <data name="VAL_AVATAR_FORMAT" xml:space="preserve"><value>Chỉ chấp nhận định dạng JPG hoặc PNG.</value></data>
+  <data name="VAL_NAME_EMPTY" xml:space="preserve"><value>Tên không được để trống.</value></data>
+  <data name="VAL_NAME_MAX" xml:space="preserve"><value>Tên không được vượt quá 100 ký tự.</value></data>
+  <data name="VAL_NAME_FORMAT" xml:space="preserve"><value>Tên chỉ được chứa chữ cái, dấu chấm, gạch ngang và khoảng trắng.</value></data>
+  <data name="VAL_PHONE_MAX_20" xml:space="preserve"><value>Số điện thoại không được vượt quá 20 ký tự.</value></data>
+  <data name="VAL_PHONE_FORMAT_EXT" xml:space="preserve"><value>Số điện thoại chỉ được chứa số, dấu +, - và khoảng trắng.</value></data>
+  <data name="VAL_OLD_PASSWORD_EMPTY" xml:space="preserve"><value>Mật khẩu cũ không được để trống.</value></data>
+  <data name="VAL_NEW_PASSWORD_EMPTY" xml:space="preserve"><value>Mật khẩu mới không được để trống.</value></data>
+  <data name="VAL_NEW_PASSWORD_MIN_6" xml:space="preserve"><value>Mật khẩu mới phải có ít nhất 6 ký tự.</value></data>
+  <data name="ERR_VALIDATION_FAILED" xml:space="preserve"><value>Dữ liệu đầu vào không hợp lệ.</value></data>
+  <data name="ERR_AUTH_CREDENTIALS_EMPTY" xml:space="preserve"><value>Email và mật khẩu không được để trống.</value></data>
+  <data name="ERR_AUTH_EMAIL_EXISTS" xml:space="preserve"><value>Email đã tồn tại trong hệ thống.</value></data>
+  <data name="ERR_SERVER_ERROR" xml:space="preserve"><value>Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau.</value></data>
+  <data name="ERR_AUTH_CREDENTIALS_INVALID" xml:space="preserve"><value>Tài khoản hoặc mật khẩu không chính xác.</value></data>
+  <data name="ERR_AUTH_GOOGLE_FAILED" xml:space="preserve"><value>Đăng nhập bằng Google thất bại.</value></data>
+  <data name="ERR_TOKEN_NOT_FOUND" xml:space="preserve"><value>Không tìm thấy Token.</value></data>
+  <data name="ERR_TOKEN_INVALID" xml:space="preserve"><value>Token không hợp lệ hoặc đã hết hạn.</value></data>
+  <data name="SUCCESS_LOGIN" xml:space="preserve"><value>Đăng nhập thành công.</value></data>
+  <data name="SUCCESS_TOKEN_REFRESHED" xml:space="preserve"><value>Làm mới token thành công.</value></data>
+  <data name="ERR_UNKNOWN" xml:space="preserve"><value>Đã xảy ra lỗi không xác định.</value></data>
+  <data name="ERR_LOGIN_FAILED" xml:space="preserve"><value>Đăng nhập thất bại.</value></data>
+  <data name="ERR_TOKEN_REFRESH_FAILED" xml:space="preserve"><value>Làm mới token thất bại.</value></data>
+  <data name="SUCCESS_OPERATION" xml:space="preserve"><value>Thực hiện thành công.</value></data>
+  <data name="ERR_BRAND_CREATE_FAILED" xml:space="preserve"><value>Thêm thương hiệu thất bại.</value></data>
+  <data name="ERR_CATEGORY_CREATE_FAILED" xml:space="preserve"><value>Thêm danh mục thất bại.</value></data>
+  <data name="ERR_VARIANT_NOT_FOUND" xml:space="preserve"><value>Không tìm thấy phiên bản sản phẩm.</value></data>
+  <data name="ERR_STOCK_NOT_ENOUGH" xml:space="preserve"><value>Không đủ hàng trong kho.</value></data>
+  <data name="ERR_CART_DELETE_FAILED" xml:space="preserve"><value>Xóa sản phẩm khỏi giỏ hàng thất bại.</value></data>
+  <data name="ERR_CART_ITEM_NOT_FOUND" xml:space="preserve"><value>Không tìm thấy sản phẩm trong giỏ hàng.</value></data>
+  <data name="ERR_INVALID_CART_REQUEST" xml:space="preserve"><value>Thông tin giỏ hàng không hợp lệ.</value></data>
+  <data name="ERR_COUPON_EMPTY" xml:space="preserve"><value>Mã giảm giá không được để trống.</value></data>
+  <data name="ERR_COUPON_PRODUCT_PRICE_INVALID" xml:space="preserve"><value>Sản phẩm không có thông tin giá hợp lệ.</value></data>
+  <data name="ERR_COUPON_NOT_FOUND" xml:space="preserve"><value>Mã giảm giá không tồn tại hoặc đã bị vô hiệu hóa.</value></data>
+  <data name="ERR_COUPON_EXPIRED" xml:space="preserve"><value>Mã giảm giá đã hết hạn sử dụng.</value></data>
+  <data name="ERR_COUPON_USAGE_LIMIT_REACHED" xml:space="preserve"><value>Mã giảm giá đã hết lượt sử dụng.</value></data>
+  <data name="ERR_COUPON_CUSTOMER_USAGE_LIMIT_REACHED" xml:space="preserve"><value>Bạn đã sử dụng hết số lần cho phép của mã giảm giá này.</value></data>
+  <data name="ERR_COUPON_MIN_ORDER_VALUE" xml:space="preserve"><value>Đơn hàng không đạt giá trị tối thiểu để áp dụng mã này.</value></data>
+  <data name="ERR_PROFILE_NAME_EMPTY" xml:space="preserve"><value>Tên không được để trống.</value></data>
+  <data name="ERR_USER_NOT_FOUND" xml:space="preserve"><value>Không tìm thấy người dùng.</value></data>
+  <data name="ERR_PROFILE_PHONE_INVALID" xml:space="preserve"><value>Số điện thoại không hợp lệ.</value></data>
+  <data name="ERR_PROFILE_ADDRESS_EMPTY" xml:space="preserve"><value>Địa chỉ không được để trống.</value></data>
+  <data name="ERR_PROFILE_PASSWORD_MIN_LENGTH" xml:space="preserve"><value>Mật khẩu mới phải có ít nhất 6 ký tự.</value></data>
+  <data name="ERR_PROFILE_NO_PASSWORD_SET" xml:space="preserve"><value>Tài khoản chưa được thiết lập mật khẩu (có thể do đăng nhập bằng Google).</value></data>
+  <data name="ERR_PROFILE_OLD_PASSWORD_INCORRECT" xml:space="preserve"><value>Mật khẩu cũ không chính xác.</value></data>
+  <data name="ERR_AVATAR_UPDATE_FAILED" xml:space="preserve"><value>Cập nhật ảnh đại diện thất bại.</value></data>
+  <data name="ERR_MISSING_IDEMPOTENCY_KEY" xml:space="preserve"><value>Thiếu header Idempotency-Key.</value></data>
+  <data name="ERR_CUSTOMER_NOT_FOUND" xml:space="preserve"><value>Không tìm thấy hồ sơ khách hàng.</value></data>
+  <data name="ERR_PRODUCT_NOT_FOUND" xml:space="preserve"><value>Không tìm thấy sản phẩm.</value></data>
+  <data name="ERR_CATEGORY_NOT_FOUND" xml:space="preserve"><value>Không tìm thấy danh mục.</value></data>
+  <data name="ERR_PAYMENT_INVALID_AMOUNT" xml:space="preserve"><value>Số tiền thanh toán không hợp lệ.</value></data>
+  <data name="ERR_ORDER_ALREADY_PROCESSED" xml:space="preserve"><value>Đơn hàng đã được xử lý trước đó.</value></data>
+  <data name="ERR_PAYMENT_PROCESSING" xml:space="preserve"><value>Giao dịch đang được xử lý. Vui lòng không gửi lại.</value></data>
+  <data name="ERR_ORDER_CALCULATION_FAILED" xml:space="preserve"><value>Lỗi tính toán đơn hàng.</value></data>
+  <data name="ERR_ORDER_CANNOT_COMPLETE" xml:space="preserve"><value>Chỉ có thể xác nhận nhận hàng đối với đơn hàng đang giao hoặc đã xác nhận.</value></data>
+  <data name="ERR_UNAUTHORIZED" xml:space="preserve"><value>Không có quyền truy cập.</value></data>
+  <data name="ERR_ORDER_ALREADY_CANCELLED" xml:space="preserve"><value>Đơn hàng đã được hủy trước đó.</value></data>
+  <data name="ERR_ORDER_CANNOT_CANCEL_NOT_PENDING" xml:space="preserve"><value>Chỉ có thể hủy đơn hàng đang ở trạng thái chờ xử lý (Pending).</value></data>
+  <data name="ERR_ORDER_NOT_FOUND" xml:space="preserve"><value>Không tìm thấy đơn hàng hoặc bạn không có quyền truy cập.</value></data>
+  <data name="SUCCESS_ORDER_COD" xml:space="preserve"><value>Đặt hàng thành công (Thanh toán khi nhận hàng).</value></data>
+  <data name="SUCCESS_ORDER_VNPAY" xml:space="preserve"><value>Vui lòng hoàn tất thanh toán trong vòng 5 phút.</value></data>
 </root>
-
-

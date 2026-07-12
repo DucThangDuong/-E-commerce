@@ -192,6 +192,15 @@ public static class DependencyInjectionExtensions
                         QueueLimit = 0,
                         Window = TimeSpan.FromSeconds(30)
                     }));
+            options.AddPolicy("global_auth_strict", httpContext =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: "global_auth_key",
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 200,
+                        QueueLimit = 50,
+                        Window = TimeSpan.FromMinutes(1)
+                    }));
 
             options.AddPolicy("order_strict", httpContext =>
                 RateLimitPartition.GetFixedWindowLimiter(

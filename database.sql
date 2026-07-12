@@ -140,7 +140,7 @@ CREATE TABLE ProductImages (
     color_id INT NULL,
     image_url VARCHAR(500) NOT NULL,    
     is_primary BIT DEFAULT 0,            
-    display_order INT DEFAULT 0,        
+    display_order INT DEFAULT 0,
     uploaded_at DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (product_id) REFERENCES Products(product_id) ON DELETE CASCADE,
     FOREIGN KEY (color_id) REFERENCES ProductColors(color_id) 
@@ -246,6 +246,26 @@ CREATE TABLE WarrantyBooks (
     valid_until DATETIME NOT NULL,
     FOREIGN KEY (vehicle_id) REFERENCES Vehicles(vehicle_id) ON DELETE CASCADE,
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE NO ACTION
+);
+GO
+CREATE TABLE FeatureGroups (
+    feature_group_id INT IDENTITY(1,1) PRIMARY KEY,
+    group_name NVARCHAR(100) NOT NULL,
+    display_order INT DEFAULT 0,
+);
+GO
+CREATE TABLE Features (
+    feature_id INT IDENTITY(1,1) PRIMARY KEY,
+    feature_group_id INT NOT NULL,
+    product_id INT NOT NULL,
+
+    Name NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(MAX) NULL,
+    image_url VARCHAR(255) NOT NULL,
+    display_order INT DEFAULT 0,
+    
+    FOREIGN KEY (product_id) REFERENCES Products(product_id) ON DELETE CASCADE,
+    FOREIGN KEY (feature_group_id) REFERENCES FeatureGroups(feature_group_id) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [InboxState] (

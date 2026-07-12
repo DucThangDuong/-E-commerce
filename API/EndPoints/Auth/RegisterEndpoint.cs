@@ -14,6 +14,7 @@ namespace API.EndPoints.Auth
         {
             Post("/register");
             AllowAnonymous();
+            Options(x => x.RequireRateLimiting("global_auth_strict"));
             Options(x => x.RequireRateLimiting("auth_strict"));
         }
 

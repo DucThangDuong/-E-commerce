@@ -85,7 +85,23 @@ namespace API.EndPoints.Product
                             {
                                 SpecName = s.Spec.SpecName,
                                 SpecValue = s.SpecValue
-                            }).ToList()
+                            }).ToList(),
+                            FeatureGroups = e.Features
+                                .GroupBy(f => f.FeatureGroup)
+                                .Select(g => new ResFeatureGroupDto
+                                {
+                                    FeatureGroupId = g.Key.FeatureGroupId,
+                                    GroupName = g.Key.GroupName,
+                                    DisplayOrder = g.Key.DisplayOrder,
+                                    Features = g.Select(f => new ResFeatureDto
+                                    {
+                                        Name = f.Name,
+                                        Description = f.Description,
+                                        ImageUrl = f.ImageUrl,
+                                        DisplayOrder = f.DisplayOrder
+                                    }).OrderBy(f => f.DisplayOrder).ToList()
+                                }
+                            ).OrderBy(g => g.DisplayOrder).ToList()
                         })
                         .FirstOrDefaultAsync(ct);
                 }, TimeSpan.FromMinutes(30));

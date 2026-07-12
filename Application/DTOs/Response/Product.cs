@@ -47,6 +47,23 @@ namespace Application.DTOs.Response
         public List<string>? ImageUrls { get; set; } 
         public List<ResProductColorDto> Colors { get; set; } = new List<ResProductColorDto>();
         public List<ResProductSpecificationDto>? Specifications { get; set; }
+        public List<ResFeatureGroupDto>? FeatureGroups { get; set; }
+    }
+
+    public class ResFeatureDto
+    {
+        public string Name { get; set; } = null!;
+        public string? Description { get; set; }
+        public string ImageUrl { get; set; } = null!;
+        public int? DisplayOrder { get; set; }
+    }
+
+    public class ResFeatureGroupDto
+    {
+        public int FeatureGroupId { get; set; }
+        public string GroupName { get; set; } = null!;
+        public int? DisplayOrder { get; set; }
+        public List<ResFeatureDto> Features { get; set; } = new List<ResFeatureDto>();
     }
     public class ResPagedProductDto
     {

@@ -16,6 +16,7 @@ public class LoginEndpoint : Endpoint<ReqLoginDTo>
     {
         Post("/login");
         AllowAnonymous();
+        Options(x => x.RequireRateLimiting("global_auth_strict"));
         Options(x => x.RequireRateLimiting("auth_strict"));
     }
 

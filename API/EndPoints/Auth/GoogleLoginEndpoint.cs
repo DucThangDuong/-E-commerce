@@ -16,6 +16,7 @@ public class GoogleLoginEndpoint : Endpoint<ReqGoogleLoginDTO>
     {
         Post("/google");
         AllowAnonymous();
+        Options(x => x.RequireRateLimiting("global_auth_strict"));
         Options(x => x.RequireRateLimiting("auth_strict"));
     }
 

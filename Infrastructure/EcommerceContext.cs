@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -31,6 +31,10 @@ public partial class EcommerceContext : DbContext, IAppReadDbContext
     public virtual DbSet<CouponUsage> CouponUsages { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
+
+    public virtual DbSet<Feature> Features { get; set; }
+
+    public virtual DbSet<FeatureGroup> FeatureGroups { get; set; }
 
     public virtual DbSet<FeaturedProduct> FeaturedProducts { get; set; }
 
@@ -276,6 +280,45 @@ public partial class EcommerceContext : DbContext, IAppReadDbContext
                 .IsUnicode(false)
                 .HasDefaultValue("User")
                 .HasColumnName("role");
+        });
+
+        modelBuilder.Entity<Feature>(entity =>
+        {
+            entity.HasKey(e => e.FeatureId).HasName("PK__Features__7906CBD77C9C81C2");
+
+            entity.Property(e => e.FeatureId).HasColumnName("feature_id");
+            entity.Property(e => e.Description).HasColumnType("nvarchar(max)");
+            entity.Property(e => e.DisplayOrder)
+                .HasDefaultValue(0)
+                .HasColumnName("display_order");
+            entity.Property(e => e.FeatureGroupId).HasColumnName("feature_group_id");
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("image_url");
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+
+            entity.HasOne(d => d.FeatureGroup).WithMany(p => p.Features)
+                .HasForeignKey(d => d.FeatureGroupId)
+                .HasConstraintName("FK__Features__featur__12FDD1B2");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Features)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("FK__Features__produc__1209AD79");
+        });
+
+        modelBuilder.Entity<FeatureGroup>(entity =>
+        {
+            entity.HasKey(e => e.FeatureGroupId).HasName("PK__FeatureG__280B8BB3DEFF48AD");
+
+            entity.Property(e => e.FeatureGroupId).HasColumnName("feature_group_id");
+            entity.Property(e => e.DisplayOrder)
+                .HasDefaultValue(0)
+                .HasColumnName("display_order");
+            entity.Property(e => e.GroupName)
+                .HasMaxLength(100)
+                .HasColumnName("group_name");
         });
 
         modelBuilder.Entity<FeaturedProduct>(entity =>
